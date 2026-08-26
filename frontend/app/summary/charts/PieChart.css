@@ -1,0 +1,130 @@
+.pie-chart-container {
+  position: relative;
+
+  width: 100%;
+  height: 325px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* วงกลมหลัก */
+.pie-chart {
+  position: relative;
+
+  width: 220px;
+  height: 220px;
+
+  border-radius: 50%;
+
+  background: conic-gradient(
+    #58a6ff 0deg 73deg,
+    #a8ff60 73deg 125deg,
+    #ff6384 125deg 208deg,
+    #ffc857 208deg 297deg,
+    #b986f8 297deg 360deg
+  );
+
+  transform: rotate(-35deg);
+}
+
+/* รูตรงกลาง ทำให้เป็น Donut */
+.pie-hole {
+  position: absolute;
+
+  width: 135px;
+  height: 135px;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: #514d4d;
+}
+
+/* =========================
+   LABEL
+========================= */
+
+.pie-label {
+  position: absolute;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  color: #ffffff;
+
+  white-space: nowrap;
+}
+
+/* บน */
+.label-tue {
+  top: 38px;
+  left: 50%;
+
+  transform: translateX(-50%);
+}
+
+/* ขวาบน */
+.label-mon {
+  top: 105px;
+  left: calc(50% + 125px);
+}
+
+/* ขวาล่าง */
+.label-fri {
+  bottom: 55px;
+  left: calc(50% + 100px);
+}
+
+/* ซ้ายล่าง */
+.label-thu {
+  bottom: 55px;
+  right: calc(50% + 100px);
+}
+
+/* ซ้ายบน */
+.label-wed {
+  top: 105px;
+  right: calc(50% + 125px);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+  .pie-chart {
+    width: 180px;
+    height: 180px;
+  }
+
+  .pie-hole {
+    width: 110px;
+    height: 110px;
+  }
+
+  .pie-label {
+    font-size: 9px;
+  }
+
+  .label-mon {
+    left: calc(50% + 100px);
+  }
+
+  .label-wed {
+    right: calc(50% + 100px);
+  }
+
+  .label-fri {
+    left: calc(50% + 80px);
+  }
+
+  .label-thu {
+    right: calc(50% + 80px);
+  }
+}

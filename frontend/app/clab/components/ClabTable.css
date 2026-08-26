@@ -1,0 +1,88 @@
+.clab-table-card {
+  width: 100%;
+
+  margin-top: 25px;
+
+  background: #514d4d;
+  color: white;
+
+  overflow: hidden;
+}
+
+/* HEADER */
+
+.clab-table-header {
+  min-height: 52px;
+
+  padding: 9px 12px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #333;
+}
+
+.clab-table-header h3 {
+  margin: 0 0 4px;
+
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.clab-table-header p {
+  margin: 0;
+
+  color: #d3d3d3;
+  font-size: 8px;
+}
+
+.live-update {
+  color: #54df31;
+  font-size: 10px;
+}
+
+/* TABLE */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.clab-table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.clab-table th,
+.clab-table td {
+  padding: 12px 20px;
+
+  border-bottom: 1px solid #292626;
+
+  text-align: center;
+
+  color: #eee;
+
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.clab-table th {
+  font-size: 9px;
+}
+
+.clab-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.clab-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 700px) {
+  .clab-table {
+    min-width: 600px;
+  }
+}

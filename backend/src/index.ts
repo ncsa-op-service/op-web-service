@@ -1,15 +1,21 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { initializeDatabase, pool } from "./db.js";
-import uploadRouter from "./routes/upload.js";
-import linksRouter from "./routes/links.js";
+
+import checkUrlRoutes from "./routes/checkUrl.js";
+import networkInfoRoutes from "./routes/networkInfo.js";
+import { initializeDatabase } from "./db.js";
 
 const app = express();
+
 const port = Number(process.env.PORT ?? 4000);
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+    ],
   })
 );
 
@@ -17,45 +23,40 @@ app.use(express.json());
 
 app.get("/", (_req, res) => {
   res.json({
-    message: "LINE QR Checker API",
+    message: "OP Web Service API",
     status: "running",
   });
 });
 
-app.get("/db-test", async (_req, res) => {
-  try {
-    const result = await pool.query(
-      "SELECT NOW() AS current_time"
-    );
+/* ตรวจ URL */
+app.use("/api/check-url", checkUrlRoutes);
 
-    res.json({
-      connected: true,
-      databaseTime: result.rows[0].current_time,
-    });
-  } catch (error) {
-    console.error(error);
+/* ตรวจ Public IP / ISP / Network */
+app.use("/api/network-info", networkInfoRoutes);
 
-    res.status(500).json({
-      connected: false,
-      message: "เชื่อม PostgreSQL ไม่สำเร็จ",
-    });
-  }
-});
-
-app.use("/api/uploads", uploadRouter);
-app.use("/api/links", linksRouter);
-
-async function startServer(): Promise<void> {
+async function startServer() {
   try {
     await initializeDatabase();
 
+    console.log("Database initialized successfully");
+
     app.listen(port, "0.0.0.0", () => {
-      console.log(`Backend running on port ${port}`);
+      console.log(
+        `Backend running on http://localhost:${port}`
+      );
+
+      console.log(
+        `Check URL API: http://localhost:${port}/api/check-url`
+      );
+
+      console.log(
+        `Network Info API: http://localhost:${port}/api/network-info`
+      );
     });
   } catch (error) {
-    console.error("เริ่ม Backend ไม่สำเร็จ:", error);
+    console.error("Failed to initialize database:", error);
     process.exit(1);
   }
 }
 
-void startServer();
+startServer();

@@ -1,51 +1,76 @@
 services:
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: line_checker_frontend
-    restart: unless-stopped
+    build: ./frontend
+    container_name: op_frontend
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:4000
     depends_on:
       - backend
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: line_checker_backend
-    restart: unless-stopped
+    build: ./backend
+    container_name: op_backend
     ports:
       - "4000:4000"
     environment:
       PORT: 4000
-      DATABASE_URL: ${DATABASE_URL}
+
+      # PostgreSQL
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+
+      # MongoDB
+      MONGO_URL: ${MONGO_URL}
+
+      # Authentication
+      JWT_SECRET: ${JWT_SECRET}
+
     depends_on:
       postgres:
         condition: service_healthy
+      mongodb:
+        condition: service_started
 
   postgres:
     image: postgres:16
-    container_name: line_checker_postgres
+    container_name: op_postgres
     restart: unless-stopped
     ports:
       - "5432:5432"
+
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
     healthcheck:
       test:
-        - CMD-SHELL
-        - pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
+        ]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
+
+  mongodb:
+    image: mongo:8
+    container_name: op_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+
+    volumes:
+      - mongo_data:/data/db
 
 volumes:
   postgres_data:
+  mongo_data:

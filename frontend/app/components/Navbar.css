@@ -1,0 +1,82 @@
+.navbar {
+  width: 100%;
+  background: #031a49;
+  color: white;
+}
+
+.navbar-top {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  background: white;
+  border-radius: 50%;
+}
+
+.brand-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  margin-top: 2px;
+  font-size: 6px;
+  font-weight: 500;
+}
+
+.logout-button {
+  background: #0866e9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 20px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: #0055cc;
+}
+
+.navbar-menu {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding: 0 24px;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+  padding: 11px 8px;
+  font-size: 15px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.navbar-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.navbar-link.active {
+  background: white;
+  color: #031a49;
+  padding-left: 10px;
+  padding-right: 10px;
+}

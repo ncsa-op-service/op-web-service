@@ -1,0 +1,50 @@
+.bar-chart-wrapper {
+  height: 330px;
+  padding: 30px 50px;
+}
+
+.bar-chart-area {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  border-bottom: 1px solid #aaa;
+}
+
+.bar-item {
+  height: 100%;
+  width: 100px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.bar {
+  width: 55px;
+  background: #a8ff60;
+}
+
+.bar-one {
+  height: 90px;
+}
+
+.bar-two {
+  height: 160px;
+}
+
+.bar-three {
+  height: 210px;
+}
+
+.bar-four {
+  height: 180px;
+}
+
+.bar-item span {
+  font-size: 12px;
+  color: white;
+}

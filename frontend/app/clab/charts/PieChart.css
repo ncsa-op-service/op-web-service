@@ -1,0 +1,109 @@
+.clab-pie-container {
+  position: relative;
+
+  width: 100%;
+  height: 390px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clab-pie-chart {
+  position: relative;
+
+  width: 210px;
+  height: 210px;
+
+  border-radius: 50%;
+
+  background: conic-gradient(
+    #58a6ff 0deg 73deg,
+    #a8ff60 73deg 125deg,
+    #ff6384 125deg 208deg,
+    #ffc857 208deg 297deg,
+    #b986f8 297deg 360deg
+  );
+
+  transform: rotate(-35deg);
+}
+
+.clab-pie-hole {
+  position: absolute;
+
+  width: 130px;
+  height: 130px;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: #514d4d;
+}
+
+.clab-pie-label {
+  position: absolute;
+
+  color: white;
+
+  font-size: 9px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+/* TOP */
+
+.pie-tue {
+  top: 82px;
+  left: 50%;
+
+  transform: translateX(-50%);
+}
+
+/* RIGHT TOP */
+
+.pie-mon {
+  top: 145px;
+  left: calc(50% + 105px);
+}
+
+/* RIGHT BOTTOM */
+
+.pie-fri {
+  bottom: 85px;
+  left: calc(50% + 80px);
+}
+
+/* LEFT BOTTOM */
+
+.pie-thu {
+  bottom: 85px;
+  right: calc(50% + 80px);
+}
+
+/* LEFT TOP */
+
+.pie-wed {
+  top: 145px;
+  right: calc(50% + 105px);
+}
+
+@media (max-width: 600px) {
+  .clab-pie-chart {
+    width: 180px;
+    height: 180px;
+  }
+
+  .clab-pie-hole {
+    width: 110px;
+    height: 110px;
+  }
+
+  .clab-pie-label {
+    font-size: 8px;
+  }
+}

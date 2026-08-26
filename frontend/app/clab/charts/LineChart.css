@@ -1,0 +1,158 @@
+.clab-line-chart {
+  position: relative;
+
+  width: 100%;
+  height: 390px;
+
+  box-sizing: border-box;
+}
+
+/* GRID */
+
+.line-grid {
+  position: absolute;
+
+  left: 65px;
+  right: 20px;
+
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.line-grid-220 {
+  top: 55px;
+}
+
+.line-grid-165 {
+  top: 115px;
+}
+
+.line-grid-110 {
+  top: 175px;
+}
+
+.line-grid-55 {
+  top: 235px;
+}
+
+.line-grid-0 {
+  top: 295px;
+}
+
+/* Y AXIS */
+
+.line-y-label {
+  position: absolute;
+
+  left: 15px;
+
+  width: 38px;
+
+  text-align: right;
+
+  color: #eee;
+  font-size: 12px;
+}
+
+.y-220 {
+  top: 47px;
+}
+
+.y-165 {
+  top: 107px;
+}
+
+.y-110 {
+  top: 167px;
+}
+
+.y-55 {
+  top: 227px;
+}
+
+.y-0 {
+  top: 287px;
+}
+
+/* SVG */
+
+.clab-line-svg {
+  position: absolute;
+
+  left: 65px;
+  top: 55px;
+
+  width: calc(100% - 85px);
+  height: 240px;
+
+  overflow: visible;
+}
+
+.graph-path {
+  fill: none;
+
+  stroke-width: 3;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect: non-scaling-stroke;
+}
+
+/* GREEN */
+
+.green-path {
+  stroke: #afff59;
+}
+
+.green-point {
+  fill: #afff59;
+}
+
+/* BLUE */
+
+.blue-path {
+  stroke: #63a3f3;
+}
+
+.blue-point {
+  fill: #63a3f3;
+}
+
+/* X AXIS */
+
+.line-x-axis {
+  position: absolute;
+
+  left: 65px;
+  right: 20px;
+
+  bottom: 35px;
+
+  display: flex;
+  justify-content: space-around;
+
+  color: white;
+  font-size: 11px;
+}
+
+@media (max-width: 700px) {
+  .line-grid {
+    left: 50px;
+  }
+
+  .clab-line-svg {
+    left: 50px;
+    width: calc(100% - 70px);
+  }
+
+  .line-x-axis {
+    left: 50px;
+  }
+
+  .line-y-label {
+    left: 3px;
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,190 @@
+.summary-page {
+  min-height: calc(100vh - 100px);
+  background: #f6f3ef;
+  padding: 28px 24px 50px;
+  color: #111;
+}
+
+.summary-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.summary-breadcrumb {
+  font-size: 15px;
+  margin: 0 0 12px;
+}
+
+.summary-divider {
+  width: 100%;
+  height: 4px;
+  background: #d7d7d7;
+  margin-bottom: 18px;
+}
+
+.summary-title {
+  font-size: 42px;
+  font-weight: 400;
+  margin: 0 0 28px;
+}
+
+.summary-section h2 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   CLAB CARD
+========================= */
+
+.clab-card {
+  width: 100%;
+  min-height: 390px;
+  background: #514d4d;
+  color: white;
+  overflow: hidden;
+}
+
+.clab-card-header {
+  min-height: 62px;
+  border-bottom: 1px solid #696565;
+  padding: 10px 14px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.clab-card-header h3 {
+  font-size: 13px;
+  font-weight: 400;
+  margin: 0 0 6px;
+}
+
+.clab-card-header p {
+  margin: 0;
+  font-size: 9px;
+  color: #d3d3d3;
+}
+
+/* =========================
+   BAR / PIE / LINE BUTTONS
+========================= */
+
+.chart-tabs {
+  display: flex;
+}
+
+.chart-tabs button {
+  width: 64px;
+  height: 32px;
+
+  border: 1px solid #333;
+  background: #bfc1c1;
+
+  color: #111;
+  font-size: 11px;
+
+  cursor: pointer;
+}
+
+.chart-tabs button:first-child {
+  border-radius: 2px 0 0 2px;
+}
+
+.chart-tabs button:last-child {
+  border-radius: 0 2px 2px 0;
+}
+
+.chart-tabs button.active {
+  background: #2fd310;
+  color: #000;
+}
+
+.chart-tabs button:hover {
+  opacity: 0.9;
+}
+
+/* พื้นที่สำหรับแสดงกราฟ */
+
+.chart-display {
+  width: 100%;
+  min-height: 325px;
+}
+
+/* =========================
+   SUMMARY CARDS
+========================= */
+
+.summary-cards {
+  margin-top: 28px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.info-card {
+  background: white;
+  border-radius: 10px;
+  padding: 22px;
+
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.info-card h3 {
+  margin: 0;
+
+  font-size: 17px;
+  color: #082558;
+}
+
+.info-number {
+  font-size: 36px;
+  font-weight: 700;
+
+  margin: 12px 0 4px;
+
+  color: #1268e8;
+}
+
+.info-card span {
+  color: #777;
+  font-size: 13px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-title {
+    font-size: 34px;
+  }
+
+  .chart-tabs button {
+    width: 55px;
+    height: 30px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .summary-page {
+    padding: 20px 14px 40px;
+  }
+
+  .summary-title {
+    font-size: 30px;
+  }
+
+  .clab-card-header {
+    gap: 12px;
+  }
+}

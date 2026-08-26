@@ -1,0 +1,671 @@
+/* ==============================
+   LOGIN PAGE
+================================ */
+
+.login-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 58% 42%;
+
+  font-family: Arial, Helvetica, sans-serif;
+  color: #ffffff;
+
+  background: #031a3d;
+  overflow: hidden;
+}
+
+/* ==============================
+   BACKGROUND
+================================ */
+
+.login-page::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background-image: url("/cyber-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  filter:
+    brightness(1.08)
+    contrast(1.08)
+    saturate(1.1);
+
+  z-index: 0;
+}
+
+.login-page::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(2, 16, 45, 0.02) 0%,
+    rgba(2, 16, 45, 0.04) 45%,
+    rgba(2, 16, 45, 0.18) 70%,
+    rgba(2, 16, 45, 0.38) 100%
+  );
+
+  pointer-events: none;
+  z-index: 1;
+}
+
+.login-left,
+.login-right {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==============================
+   LEFT SIDE
+================================ */
+
+.login-left {
+  min-height: 100vh;
+
+  padding: 38px 4%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ==============================
+   NCSA + OP BRAND
+================================ */
+
+.login-top-brand {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 36px;
+}
+
+/* ==============================
+   NCSA LOGO
+================================ */
+
+.ncsa-logo-box {
+  width: 92px;
+  height: 92px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.22),
+    0 0 18px rgba(50, 150, 255, 0.12);
+}
+
+.ncsa-logo {
+  width: 82px;
+  height: 82px;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+/* ==============================
+   OP BRAND
+================================ */
+
+.login-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+/* OP LOGO */
+
+.login-logo {
+  position: relative;
+
+  width: 64px;
+  height: 64px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #2e8cff,
+    #1458b8
+  );
+
+  border: 1px solid rgba(111, 185, 255, 0.4);
+
+  border-radius: 10px;
+
+  color: #ffffff;
+
+  font-size: 28px;
+  font-weight: 800;
+
+  box-shadow:
+    0 8px 25px rgba(0, 82, 190, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.login-logo::after {
+  content: "";
+
+  position: absolute;
+
+  top: 7px;
+  right: 7px;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #6ed8ff;
+
+  box-shadow:
+    0 0 6px #6ed8ff,
+    0 0 12px #35b8ff;
+}
+
+/* ==============================
+   BRAND TEXT
+================================ */
+
+.login-brand-text h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 28px;
+  font-weight: 800;
+
+  line-height: 1.05;
+
+  white-space: nowrap;
+}
+
+.login-brand-text p {
+  margin: 6px 0 0;
+
+  color: #bdc9dc;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* ==============================
+   DESCRIPTION
+================================ */
+
+.login-description {
+  margin-top: 18px;
+
+  /* ให้เริ่มใต้ OP ไม่ใช่ใต้ NCSA */
+  margin-left: 128px;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  line-height: 1.35;
+
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* ==============================
+   RIGHT SIDE
+================================ */
+
+.login-right {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 7% 40px 20px;
+}
+
+/* ==============================
+   LOGIN CARD
+================================ */
+
+.login-card {
+  position: relative;
+
+  width: 100%;
+  max-width: 410px;
+  min-height: 620px;
+
+  padding: 36px 40px 45px;
+
+  background: rgba(255, 255, 255, 0.98);
+
+  color: #1b2940;
+
+  border-radius: 23px;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.3),
+    0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+/* ==============================
+   TITLE
+================================ */
+
+.login-card h2 {
+  margin: 0;
+
+  text-align: center;
+
+  color: #1d2a40;
+
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.login-title-line {
+  width: 270px;
+  max-width: 100%;
+
+  margin: 10px auto;
+
+  border-top: 4px dashed #c8c8c8;
+}
+
+.login-subtitle {
+  margin: 0 0 40px;
+
+  text-align: center;
+
+  color: #777777;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ==============================
+   FORM
+================================ */
+
+.login-form {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==============================
+   INPUT
+================================ */
+
+.login-input {
+  width: 100%;
+  height: 48px;
+
+  margin-bottom: 12px;
+
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  background: #eeeeee;
+
+  border: 1px solid transparent;
+
+  border-radius: 24px;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-input:focus-within {
+  background: #ffffff;
+
+  border-color: #2779e8;
+
+  box-shadow:
+    0 0 0 3px rgba(39, 121, 232, 0.1);
+}
+
+.input-icon {
+  width: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #176ce7;
+
+  font-size: 19px;
+
+  flex-shrink: 0;
+}
+
+.login-input input {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #333333;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.login-input input::placeholder {
+  color: #686868;
+  opacity: 1;
+}
+
+/* ==============================
+   FORGOT PASSWORD
+================================ */
+
+.forgot-password {
+  align-self: flex-end;
+
+  margin: 1px 4px 23px 0;
+
+  color: #e16d75;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-decoration: underline;
+
+  transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+  color: #c74852;
+}
+
+/* ==============================
+   SIGN IN
+================================ */
+
+.sign-in-button {
+  width: 100%;
+  height: 46px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: #176ce7;
+
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 18px rgba(23, 108, 231, 0.22);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sign-in-button:hover {
+  background: #2b7df1;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 9px 22px rgba(23, 108, 231, 0.3);
+}
+
+.sign-in-button:active {
+  transform: translateY(0);
+}
+
+/* ==============================
+   CONTACT ADMIN
+================================ */
+
+.contact-admin {
+  margin: 16px 0 0;
+
+  text-align: center;
+
+  color: #777777;
+
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* ==============================
+   BACK HOME
+================================ */
+
+.back-home {
+  position: absolute;
+
+  right: 27px;
+  bottom: 30px;
+
+  color: #666666;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.back-home:hover {
+  color: #176ce7;
+
+  transform: translateX(-2px);
+}
+
+/* ==============================
+   TABLET
+================================ */
+
+@media (max-width: 1000px) {
+  .login-page {
+    grid-template-columns: 52% 48%;
+  }
+
+  .login-left {
+    padding: 28px;
+  }
+
+  .login-top-brand {
+    gap: 20px;
+  }
+
+  .ncsa-logo-box {
+    width: 76px;
+    height: 76px;
+  }
+
+  .ncsa-logo {
+    width: 68px;
+    height: 68px;
+  }
+
+  .login-logo {
+    width: 55px;
+    height: 55px;
+
+    font-size: 23px;
+  }
+
+  .login-brand-text h1 {
+    font-size: 22px;
+  }
+
+  .login-brand-text p {
+    font-size: 11px;
+
+    white-space: normal;
+  }
+
+  .login-description {
+    margin-left: 96px;
+  }
+
+  .login-right {
+    padding: 30px;
+  }
+
+  .login-card {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+/* ==============================
+   MOBILE
+================================ */
+
+@media (max-width: 750px) {
+  .login-page {
+    display: block;
+
+    min-height: 100vh;
+
+    overflow-y: auto;
+  }
+
+  .login-page::before {
+    background-position: left center;
+  }
+
+  .login-page::after {
+    background: rgba(2, 18, 48, 0.35);
+  }
+
+  .login-left {
+    min-height: auto;
+
+    padding: 22px;
+  }
+
+  .login-top-brand {
+    gap: 14px;
+  }
+
+  .ncsa-logo-box {
+    width: 62px;
+    height: 62px;
+  }
+
+  .ncsa-logo {
+    width: 56px;
+    height: 56px;
+  }
+
+  .login-logo {
+    width: 50px;
+    height: 50px;
+
+    font-size: 21px;
+  }
+
+  .login-brand {
+    gap: 9px;
+  }
+
+  .login-brand-text h1 {
+    font-size: 18px;
+
+    white-space: normal;
+  }
+
+  .login-brand-text p {
+    font-size: 9px;
+  }
+
+  .login-description {
+    display: none;
+  }
+
+  .login-right {
+    min-height: auto;
+
+    padding: 20px 20px 50px;
+  }
+
+  .login-card {
+    max-width: 450px;
+    min-height: 540px;
+
+    margin: 0 auto;
+
+    padding: 30px 25px 45px;
+
+    border-radius: 18px;
+  }
+
+  .login-card h2 {
+    font-size: 27px;
+  }
+}
+
+/* ==============================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 400px) {
+  .login-right {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .login-card {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .login-title-line {
+    width: 220px;
+  }
+}

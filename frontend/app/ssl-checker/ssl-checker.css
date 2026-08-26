@@ -1,0 +1,264 @@
+.ssl-page {
+  min-height: calc(100vh - 100px);
+  background: #f6f3ef;
+  color: #111;
+  padding: 42px 40px 60px;
+}
+
+.ssl-container {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.ssl-breadcrumb {
+  margin: 0 0 18px;
+  font-size: 19px;
+}
+
+.ssl-divider {
+  width: 100%;
+  height: 5px;
+  background: #d7d7d7;
+  margin-bottom: 35px;
+}
+
+.ssl-title {
+  margin: 0 0 44px;
+  font-size: 64px;
+  font-weight: 400;
+}
+
+/* =========================
+   ACTION BAR
+========================= */
+
+.ssl-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.ssl-import-button,
+.ssl-run-button {
+  min-height: 38px;
+  padding: 0 14px;
+
+  border: none;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ssl-import-button {
+  background: #c8c8c8;
+  color: #111;
+}
+
+.ssl-run-button {
+  background: #45c936;
+  color: #111;
+}
+
+.ssl-button-dot {
+  width: 18px;
+  height: 18px;
+  background: #111;
+  border-radius: 50%;
+}
+
+/* SEARCH */
+
+.ssl-search-box {
+  width: 270px;
+  height: 38px;
+
+  margin-left: 15px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 10px;
+
+  border: 3px solid #9865a1;
+  border-radius: 5px;
+
+  background: white;
+}
+
+.ssl-search-box span {
+  margin-right: 5px;
+  font-size: 18px;
+  color: #555;
+}
+
+.ssl-search-box input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: #111;
+}
+
+/* =========================
+   SSL CARD
+========================= */
+
+.ssl-card {
+  width: 100%;
+  min-height: 330px;
+
+  background: #d5d5d5;
+}
+
+.ssl-card-header {
+  min-height: 68px;
+  padding: 12px 14px;
+
+  background: #d5d5d5;
+}
+
+.ssl-card-header h2 {
+  margin: 0 0 12px;
+
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.ssl-card-header p {
+  margin: 0;
+
+  font-size: 11px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.ssl-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.ssl-table {
+  width: 100%;
+  min-width: 800px;
+
+  border-collapse: collapse;
+}
+
+.ssl-table th {
+  height: 54px;
+
+  padding: 12px 20px;
+
+  background: #353437;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 400;
+
+  text-align: center;
+}
+
+.ssl-table td {
+  height: 65px;
+
+  padding: 12px 20px;
+
+  background: #dedede;
+  color: #111;
+
+  border-bottom: 1px solid #c8c8c8;
+
+  font-size: 13px;
+
+  text-align: center;
+}
+
+.ssl-table tbody tr:hover td {
+  background: #d7d7d7;
+}
+
+.ssl-url {
+  color: #111;
+  text-decoration: none;
+}
+
+.ssl-url:hover {
+  color: #1769e0;
+  text-decoration: underline;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.ssl-status {
+  display: inline-block;
+
+  min-width: 95px;
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ssl-status-valid {
+  background: #9ce68e;
+  color: #155f19;
+}
+
+.ssl-status-expiring {
+  background: #f6d365;
+  color: #694b00;
+}
+
+.ssl-status-expired {
+  background: #ee9292;
+  color: #7d1717;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+  .ssl-page {
+    padding: 28px 16px 40px;
+  }
+
+  .ssl-title {
+    font-size: 44px;
+  }
+
+  .ssl-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .ssl-import-button,
+  .ssl-run-button,
+  .ssl-search-box {
+    width: 100%;
+  }
+
+  .ssl-search-box {
+    margin-left: 0;
+  }
+}

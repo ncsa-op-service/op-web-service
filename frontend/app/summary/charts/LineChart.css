@@ -1,0 +1,163 @@
+.line-chart-container {
+  position: relative;
+  width: 100%;
+  height: 335px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.line-grid {
+  position: absolute;
+  left: 65px;
+  right: 15px;
+
+  height: 1px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.grid220 {
+  top: 65px;
+}
+
+.grid165 {
+  top: 120px;
+}
+
+.grid110 {
+  top: 175px;
+}
+
+.grid55 {
+  top: 230px;
+}
+
+.grid0 {
+  top: 285px;
+}
+
+/* =========================
+   Y AXIS
+========================= */
+
+.line-y {
+  position: absolute;
+  left: 18px;
+
+  width: 35px;
+  text-align: right;
+
+  color: #eeeeee;
+  font-size: 14px;
+}
+
+.y220 {
+  top: 56px;
+}
+
+.y165 {
+  top: 111px;
+}
+
+.y110 {
+  top: 166px;
+}
+
+.y55 {
+  top: 221px;
+}
+
+.y0 {
+  top: 276px;
+}
+
+/* =========================
+   GRAPH
+========================= */
+
+.line-graph {
+  position: absolute;
+
+  left: 65px;
+  top: 65px;
+
+  width: calc(100% - 80px);
+  height: 220px;
+
+  overflow: visible;
+}
+
+.graph-line {
+  fill: none;
+
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect: non-scaling-stroke;
+}
+
+/* Green */
+
+.green-line {
+  stroke: #a8ff58;
+}
+
+.green-point {
+  fill: #a8ff58;
+}
+
+/* Blue */
+
+.blue-line {
+  stroke: #59a4ff;
+}
+
+.blue-point {
+  fill: #59a4ff;
+}
+
+/* =========================
+   X AXIS
+========================= */
+
+.line-x-axis {
+  position: absolute;
+
+  left: 65px;
+  right: 15px;
+  bottom: 15px;
+
+  display: flex;
+  justify-content: space-around;
+
+  color: #eeeeee;
+  font-size: 14px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 700px) {
+  .line-y {
+    font-size: 11px;
+    left: 5px;
+  }
+
+  .line-grid {
+    left: 45px;
+  }
+
+  .line-graph {
+    left: 45px;
+    width: calc(100% - 60px);
+  }
+
+  .line-x-axis {
+    left: 45px;
+    font-size: 11px;
+  }
+}
