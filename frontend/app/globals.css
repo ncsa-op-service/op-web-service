@@ -79,13 +79,133 @@ body {
   pointer-events: none;
 }
 
-/* เนื้อหาอยู่เหนือ Background */
+/* โค้ดวิ่งจาง ๆ */
+.home-code-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.home-code-line {
+  position: absolute;
+  white-space: nowrap;
+
+  color: rgba(109, 216, 255, 0.12);
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 5px;
+
+  text-shadow:
+    0 0 8px rgba(54, 180, 255, 0.24),
+    0 0 18px rgba(0, 119, 255, 0.14);
+
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.home-code-line-1 {
+  top: 15%;
+  left: -65%;
+  animation: home-code-right 18s linear infinite;
+}
+
+.home-code-line-2 {
+  top: 31%;
+  right: -72%;
+  animation: home-code-left 24s linear infinite;
+  animation-delay: -9s;
+  font-size: 9px;
+}
+
+.home-code-line-3 {
+  top: 47%;
+  left: -78%;
+  animation: home-code-right 21s linear infinite;
+  animation-delay: -13s;
+  font-size: 8px;
+}
+
+.home-code-line-4 {
+  top: 63%;
+  right: -70%;
+  animation: home-code-left 17s linear infinite;
+  animation-delay: -5s;
+}
+
+.home-code-line-5 {
+  top: 76%;
+  left: -74%;
+  animation: home-code-right 26s linear infinite;
+  animation-delay: -17s;
+  font-size: 9px;
+}
+
+.home-code-line-6 {
+  top: 88%;
+  right: -76%;
+  animation: home-code-left 22s linear infinite;
+  animation-delay: -11s;
+  font-size: 8px;
+}
+
+@keyframes home-code-right {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 0.38;
+  }
+
+  88% {
+    opacity: 0.14;
+  }
+
+  100% {
+    transform: translateX(190vw);
+    opacity: 0;
+  }
+}
+
+@keyframes home-code-left {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.18;
+  }
+
+  50% {
+    opacity: 0.34;
+  }
+
+  88% {
+    opacity: 0.12;
+  }
+
+  100% {
+    transform: translateX(-190vw);
+    opacity: 0;
+  }
+}
+
+/* เนื้อหาอยู่เหนือ Background และโค้ด */
 .header,
 .hero,
 .services,
 .footer {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 /* ==============================
@@ -135,7 +255,6 @@ body {
   overflow: hidden;
 }
 
-/* เส้นแสงด้านบน */
 .brand::before {
   content: "";
 
@@ -155,7 +274,6 @@ body {
   );
 }
 
-/* Glow เล็ก ๆ */
 .brand::after {
   content: "";
 
@@ -219,7 +337,6 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
-/* แสงมุมโลโก้ */
 .logo::before {
   content: "";
 
@@ -234,7 +351,6 @@ body {
   pointer-events: none;
 }
 
-/* จุดไฟ */
 .logo::after {
   content: "";
 
@@ -594,5 +710,622 @@ body {
 
   .page-overlay::after {
     background: rgba(3, 21, 55, 0.28);
+  }
+
+  .home-code-line-2,
+  .home-code-line-4,
+  .home-code-line-6 {
+    display: none;
+  }
+
+  .home-code-line {
+    font-size: 7px;
+    letter-spacing: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-code-line {
+    animation: none !important;
+    opacity: 0.08;
+  }
+}
+/* =========================================================
+   HOME CODE STREAM - MAKE IT VISIBLE
+========================================================= */
+
+.home-code-layer {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* โค้ดจาง ๆ แต่เห็นจริง */
+.home-code-line {
+  position: absolute;
+
+  display: block;
+
+  white-space: nowrap;
+
+  font-family:
+    Consolas,
+    "Courier New",
+    monospace;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 5px;
+
+  color: rgba(
+    98,
+    215,
+    255,
+    0.42
+  );
+
+  text-shadow:
+    0 0 5px
+      rgba(89, 213, 255, 0.7),
+
+    0 0 12px
+      rgba(0, 163, 255, 0.38),
+
+    0 0 24px
+      rgba(0, 102, 255, 0.18);
+
+  opacity: 0;
+
+  will-change:
+    transform,
+    opacity;
+}
+
+
+/* ==============================
+   ตำแหน่งแต่ละบรรทัด
+================================ */
+
+.home-code-line-1 {
+  top: 16%;
+  left: -45%;
+
+  animation:
+    home-code-right-visible
+    13s linear infinite;
+
+  animation-delay: -3s;
+}
+
+
+.home-code-line-2 {
+  top: 28%;
+  right: -48%;
+
+  animation:
+    home-code-left-visible
+    16s linear infinite;
+
+  animation-delay: -8s;
+}
+
+
+.home-code-line-3 {
+  top: 43%;
+  left: -52%;
+
+  animation:
+    home-code-right-visible
+    15s linear infinite;
+
+  animation-delay: -10s;
+
+  font-size: 8px;
+}
+
+
+.home-code-line-4 {
+  top: 58%;
+  right: -50%;
+
+  animation:
+    home-code-left-visible
+    14s linear infinite;
+
+  animation-delay: -5s;
+}
+
+
+.home-code-line-5 {
+  top: 73%;
+  left: -54%;
+
+  animation:
+    home-code-right-visible
+    18s linear infinite;
+
+  animation-delay: -12s;
+
+  font-size: 9px;
+}
+
+
+.home-code-line-6 {
+  top: 86%;
+  right: -50%;
+
+  animation:
+    home-code-left-visible
+    17s linear infinite;
+
+  animation-delay: -9s;
+
+  font-size: 8px;
+}
+
+
+/* ==============================
+   ซ้าย -> ขวา
+================================ */
+
+@keyframes home-code-right-visible {
+
+  0% {
+    transform:
+      translateX(0);
+
+    opacity: 0;
+  }
+
+
+  8% {
+    opacity: 0.35;
+  }
+
+
+  25% {
+    opacity: 0.7;
+  }
+
+
+  55% {
+    opacity: 0.55;
+  }
+
+
+  85% {
+    opacity: 0.25;
+  }
+
+
+  100% {
+    transform:
+      translateX(175vw);
+
+    opacity: 0;
+  }
+}
+
+
+/* ==============================
+   ขวา -> ซ้าย
+================================ */
+
+@keyframes home-code-left-visible {
+
+  0% {
+    transform:
+      translateX(0);
+
+    opacity: 0;
+  }
+
+
+  8% {
+    opacity: 0.32;
+  }
+
+
+  25% {
+    opacity: 0.65;
+  }
+
+
+  55% {
+    opacity: 0.5;
+  }
+
+
+  85% {
+    opacity: 0.22;
+  }
+
+
+  100% {
+    transform:
+      translateX(-175vw);
+
+    opacity: 0;
+  }
+}
+/* Paste your existing CSS above this block */
+
+
+/* =========================================================
+   HOME BLUE LIGHT / ORB / RING EFFECT
+========================================================= */
+
+.home-fx-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ==============================
+   วงแสงฟ้าใหญ่/เล็ก
+================================ */
+
+.home-orb {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 35% 35%,
+      rgba(190, 245, 255, 0.95) 0%,
+      rgba(83, 215, 255, 0.72) 12%,
+      rgba(28, 145, 255, 0.30) 38%,
+      rgba(0, 103, 255, 0.08) 62%,
+      transparent 74%
+    );
+
+  filter: blur(1px);
+
+  box-shadow:
+    0 0 14px rgba(83, 221, 255, 0.76),
+    0 0 36px rgba(25, 153, 255, 0.55),
+    0 0 70px rgba(0, 103, 255, 0.22);
+
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+.orb-1 {
+  width: 34px;
+  height: 34px;
+  left: 9%;
+  top: 32%;
+  animation: orb-float-a 7s ease-in-out infinite alternate,
+             orb-pulse 2.8s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 16px;
+  height: 16px;
+  left: 24%;
+  top: 70%;
+  animation: orb-float-b 9s ease-in-out infinite alternate,
+             orb-pulse 2.2s ease-in-out infinite -0.8s;
+}
+
+.orb-3 {
+  width: 52px;
+  height: 52px;
+  left: 48%;
+  top: 18%;
+  opacity: 0.6;
+  animation: orb-float-c 11s ease-in-out infinite alternate,
+             orb-pulse 3.4s ease-in-out infinite -1.4s;
+}
+
+.orb-4 {
+  width: 21px;
+  height: 21px;
+  left: 64%;
+  top: 67%;
+  animation: orb-float-a 8.5s ease-in-out infinite alternate-reverse,
+             orb-pulse 2.4s ease-in-out infinite -0.4s;
+}
+
+.orb-5 {
+  width: 68px;
+  height: 68px;
+  left: 80%;
+  top: 22%;
+  opacity: 0.42;
+  animation: orb-float-b 12s ease-in-out infinite alternate,
+             orb-pulse 4s ease-in-out infinite -2s;
+}
+
+.orb-6 {
+  width: 12px;
+  height: 12px;
+  left: 88%;
+  top: 78%;
+  animation: orb-float-c 6.8s ease-in-out infinite alternate,
+             orb-pulse 1.8s ease-in-out infinite -0.6s;
+}
+
+/* ==============================
+   จุดไฟเล็ก ๆ วูบวาบ
+================================ */
+
+.home-dot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+
+  background: #8cecff;
+
+  box-shadow:
+    0 0 5px #8cecff,
+    0 0 13px #24b7ff,
+    0 0 26px rgba(0, 110, 255, 0.85);
+
+  opacity: 0;
+  animation: dot-rise 7s ease-in-out infinite;
+}
+
+.dot-1 { left: 6%;  top: 83%; animation-delay: 0s; }
+.dot-2 { left: 17%; top: 52%; animation-delay: -1.1s; }
+.dot-3 { left: 31%; top: 78%; animation-delay: -2.6s; }
+.dot-4 { left: 42%; top: 38%; animation-delay: -4s; }
+.dot-5 { left: 58%; top: 58%; animation-delay: -3s; }
+.dot-6 { left: 70%; top: 30%; animation-delay: -5.4s; }
+.dot-7 { left: 82%; top: 61%; animation-delay: -2s; }
+.dot-8 { left: 93%; top: 42%; animation-delay: -6s; }
+
+/* ==============================
+   วงแหวนฟ้าบาง ๆ
+================================ */
+
+.home-ring {
+  position: absolute;
+  display: block;
+
+  border-radius: 50%;
+  border: 1px solid rgba(93, 221, 255, 0.38);
+
+  box-shadow:
+    0 0 10px rgba(76, 215, 255, 0.26),
+    inset 0 0 12px rgba(26, 142, 255, 0.12);
+
+  opacity: 0.45;
+
+  animation: ring-drift 10s ease-in-out infinite alternate,
+             ring-breathe 3.4s ease-in-out infinite;
+}
+
+.ring-1 {
+  width: 72px;
+  height: 72px;
+  left: 14%;
+  top: 62%;
+}
+
+.ring-2 {
+  width: 110px;
+  height: 110px;
+  left: 55%;
+  top: 43%;
+  animation-delay: -2s;
+}
+
+.ring-3 {
+  width: 48px;
+  height: 48px;
+  left: 76%;
+  top: 73%;
+  animation-delay: -4.5s;
+}
+
+/* ==============================
+   แสงฟุ้งก้อนใหญ่
+================================ */
+
+.home-fx-layer::before,
+.home-fx-layer::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+
+  filter: blur(80px);
+  mix-blend-mode: screen;
+
+  opacity: 0.18;
+}
+
+.home-fx-layer::before {
+  width: 360px;
+  height: 360px;
+
+  left: -70px;
+  top: 30%;
+
+  background: rgba(0, 139, 255, 0.72);
+
+  animation: glow-drift-a 10s ease-in-out infinite alternate;
+}
+
+.home-fx-layer::after {
+  width: 320px;
+  height: 320px;
+
+  right: 6%;
+  bottom: -70px;
+
+  background: rgba(0, 224, 255, 0.52);
+
+  animation: glow-drift-b 13s ease-in-out infinite alternate;
+}
+
+/* ==============================
+   ANIMATIONS
+================================ */
+
+@keyframes orb-float-a {
+  0% {
+    transform: translate3d(-18px, 16px, 0) scale(0.86);
+  }
+
+  100% {
+    transform: translate3d(90px, -58px, 0) scale(1.18);
+  }
+}
+
+@keyframes orb-float-b {
+  0% {
+    transform: translate3d(22px, -10px, 0) scale(0.8);
+  }
+
+  100% {
+    transform: translate3d(-85px, 66px, 0) scale(1.22);
+  }
+}
+
+@keyframes orb-float-c {
+  0% {
+    transform: translate3d(-12px, 0, 0) scale(0.92);
+  }
+
+  100% {
+    transform: translate3d(75px, 80px, 0) scale(1.12);
+  }
+}
+
+@keyframes orb-pulse {
+  0%,
+  100% {
+    opacity: 0.22;
+    filter: brightness(0.8) blur(1px);
+  }
+
+  45% {
+    opacity: 0.78;
+    filter: brightness(1.35) blur(0);
+  }
+
+  62% {
+    opacity: 0.48;
+  }
+}
+
+@keyframes dot-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(-10px, 28px, 0) scale(0.45);
+  }
+
+  18% {
+    opacity: 0.75;
+  }
+
+  45% {
+    opacity: 1;
+    transform: translate3d(22px, -15px, 0) scale(1.35);
+  }
+
+  72% {
+    opacity: 0.52;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(55px, -68px, 0) scale(0.35);
+  }
+}
+
+@keyframes ring-drift {
+  0% {
+    transform: translate3d(-18px, 18px, 0);
+  }
+
+  100% {
+    transform: translate3d(65px, -45px, 0);
+  }
+}
+
+@keyframes ring-breathe {
+  0%,
+  100% {
+    opacity: 0.16;
+    scale: 0.86;
+  }
+
+  50% {
+    opacity: 0.55;
+    scale: 1.15;
+  }
+}
+
+@keyframes glow-drift-a {
+  0% {
+    transform: translate3d(-30px, 30px, 0) scale(0.85);
+  }
+
+  100% {
+    transform: translate3d(140px, -50px, 0) scale(1.15);
+  }
+}
+
+@keyframes glow-drift-b {
+  0% {
+    transform: translate3d(40px, 35px, 0) scale(0.9);
+  }
+
+  100% {
+    transform: translate3d(-120px, -55px, 0) scale(1.22);
+  }
+}
+
+/* ==============================
+   ให้เนื้อหาอยู่เหนือ Effect
+================================ */
+
+.header,
+.hero,
+.services,
+.footer {
+  position: relative;
+  z-index: 4;
+}
+
+/* ==============================
+   MOBILE
+================================ */
+
+@media (max-width: 700px) {
+  .orb-3,
+  .orb-5,
+  .ring-2,
+  .dot-6,
+  .dot-8 {
+    display: none;
+  }
+
+  .home-fx-layer::before,
+  .home-fx-layer::after {
+    opacity: 0.10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-orb,
+  .home-dot,
+  .home-ring,
+  .home-fx-layer::before,
+  .home-fx-layer::after {
+    animation: none !important;
   }
 }

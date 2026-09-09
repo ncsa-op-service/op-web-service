@@ -1,0 +1,801 @@
+.overview-va {
+  overflow: visible;
+
+  border: 1px solid #e1e7ef;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow: 0 7px 22px rgba(18, 44, 85, 0.05);
+}
+
+/* ==============================
+   HEADING
+================================ */
+
+.overview-va-heading {
+  min-height: 78px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 18px 22px;
+
+  border-bottom: 1px solid #e8edf3;
+}
+
+.overview-va-heading h2 {
+  margin: 0;
+
+  color: #11294f;
+
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.overview-va-heading p {
+  margin: 5px 0 0;
+
+  color: #7b8799;
+
+  font-size: 11px;
+}
+
+.overview-va-count {
+  padding: 6px 10px;
+
+  border-radius: 999px;
+
+  background: #edf4ff;
+  color: #1768e6;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* ==============================
+   TOOLBAR
+================================ */
+
+.overview-va-toolbar {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  padding: 14px 18px;
+
+  border-bottom: 1px solid #edf0f4;
+
+  background: #fafcff;
+}
+
+.overview-va-search {
+  width: min(450px, 100%);
+  height: 39px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0 12px;
+
+  border: 1px solid #d9e1ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+.overview-va-search:focus-within {
+  border-color: #1768e6;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(23, 104, 230, 0.07);
+}
+
+.overview-va-search span {
+  color: #8290a5;
+}
+
+.overview-va-search input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #263a58;
+
+  font-size: 11px;
+}
+
+.overview-va-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.overview-excel-button {
+  height: 36px;
+
+  padding: 0 12px;
+
+  border: 1px solid #9bc9aa;
+  border-radius: 7px;
+
+  background: #edf8f1;
+  color: #167743;
+
+  font-size: 10px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.overview-excel-button:hover {
+  border-color: #16864b;
+
+  background: #e3f4e9;
+  color: #126b3b;
+}
+
+/* ==============================
+   EXPAND / COLLAPSE
+================================ */
+
+.overview-expand-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.overview-expand-actions button {
+  height: 36px;
+
+  padding: 0 11px;
+
+  border: 1px solid #d9e2ee;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #52647e;
+
+  font-size: 9px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.overview-expand-actions button:hover {
+  border-color: #1768e6;
+
+  background: #f4f8ff;
+  color: #1768e6;
+}
+
+/* ==============================
+   VIEW TABS
+================================ */
+
+.overview-va-tabs {
+  display: flex;
+
+  padding: 3px;
+
+  border: 1px solid #dbe4ef;
+  border-radius: 9px;
+
+  background: #f5f7fa;
+}
+
+.overview-va-tabs button {
+  min-width: 85px;
+  height: 34px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #6d7b90;
+
+  font-size: 10px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.overview-va-tabs button:hover {
+  color: #1768e6;
+}
+
+.overview-va-tabs button.active {
+  background: #1768e6;
+  color: #ffffff;
+
+  box-shadow:
+    0 3px 8px
+    rgba(23, 104, 230, 0.18);
+}
+
+/* ==============================
+   COLUMN PICKER
+================================ */
+
+.overview-column-wrapper {
+  position: relative;
+}
+
+.overview-column-button {
+  height: 40px;
+
+  padding: 0 14px;
+
+  border: 1px solid #d7e0ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #263a58;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.overview-column-button:hover {
+  border-color: #1768e6;
+
+  background: #f4f8ff;
+  color: #1768e6;
+}
+
+.overview-column-menu {
+  width: 270px;
+
+  position: absolute;
+  z-index: 100;
+
+  top: calc(100% + 8px);
+  right: 0;
+
+  padding: 7px;
+
+  border: 1px solid #dce4ef;
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 15px 35px
+    rgba(20, 45, 85, 0.15);
+}
+
+.overview-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 7px 8px 10px;
+}
+
+.overview-column-header strong {
+  color: #183052;
+
+  font-size: 11px;
+}
+
+.overview-column-header button {
+  width: 28px;
+  height: 28px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #77859a;
+
+  font-size: 18px;
+
+  cursor: pointer;
+}
+
+.overview-column-header button:hover {
+  background: #f2f5f9;
+}
+
+.overview-column-option {
+  min-height: 37px;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 7px 8px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+}
+
+.overview-column-option:hover {
+  background: #f5f8fd;
+}
+
+.overview-column-option input {
+  width: 15px;
+  height: 15px;
+
+  accent-color: #1768e6;
+}
+
+.overview-column-option span {
+  color: #42536c;
+
+  font-size: 10px;
+}
+
+/* ==============================
+   TABLE WRAPPER
+================================ */
+
+.overview-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.overview-table {
+  width: 100%;
+  min-width: max-content;
+
+  border-collapse: collapse;
+}
+
+.overview-table th,
+.overview-table td {
+  border-right: 1px solid #e4e8ee;
+  border-bottom: 1px solid #e4e8ee;
+}
+
+/* ==============================
+   TABLE HEADER
+================================ */
+
+.overview-table th {
+  padding: 10px 12px;
+
+  background: #424242;
+  color: #ffffff;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-align: center;
+  white-space: nowrap;
+}
+
+.overview-month-row th {
+  position: sticky;
+  top: 0;
+
+  z-index: 5;
+}
+
+.overview-month-row th:last-child {
+  min-width: 930px;
+
+  background: #f8fafc;
+  color: #1e304b;
+
+  border-bottom: 1px solid #dfe5ed;
+}
+
+.overview-day-row th {
+  min-width: 30px;
+
+  padding: 7px 5px;
+
+  background: #ffffff;
+  color: #233954;
+
+  font-size: 9px;
+}
+
+/* ==============================
+   TABLE BODY
+================================ */
+
+.overview-table td {
+  height: 44px;
+
+  padding: 9px 11px;
+
+  background: #ffffff;
+  color: #35445b;
+
+  font-size: 10px;
+
+  vertical-align: middle;
+}
+
+.overview-table tbody tr:hover td {
+  background: #fafcff;
+}
+
+/* ==============================
+   ORGANIZATION ROW
+================================ */
+
+.overview-organization-row td {
+  background: #ffffff;
+}
+
+.overview-organization-row:hover td {
+  background: #f8fbff;
+}
+
+.overview-description-cell {
+  min-width: 360px;
+
+  color: #172c4d !important;
+
+  font-weight: 650;
+}
+
+.overview-description-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overview-description-main strong {
+  color: #132b50;
+
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.overview-expand-button {
+  width: 25px;
+  height: 25px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #dce4ef;
+  border-radius: 6px;
+
+  background: #ffffff;
+  color: #1768e6;
+
+  font-size: 8px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.overview-expand-button:hover {
+  border-color: #b9d0f5;
+
+  background: #edf4ff;
+}
+
+.overview-child-count {
+  margin-left: auto;
+
+  padding: 3px 7px;
+
+  border-radius: 999px;
+
+  background: #eef3f9;
+  color: #708096;
+
+  font-size: 8px;
+  font-weight: 650;
+
+  white-space: nowrap;
+}
+
+/* ==============================
+   CHILD ROW
+================================ */
+
+.overview-child-row td {
+  background: #fafcff;
+
+  color: #617086;
+}
+
+.overview-child-row:hover td {
+  background: #f4f8fe;
+}
+
+.overview-description-cell.child {
+  padding-left: 42px;
+}
+
+.overview-child-indent {
+  margin-right: 7px;
+
+  color: #9aa8ba;
+}
+
+/* ==============================
+   STATUS
+================================ */
+
+.overview-progress-badge {
+  display: inline-flex;
+
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  background: #edf1f6;
+  color: #66758a;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.overview-progress-badge.done {
+  background: #e5f7ec;
+  color: #16844a;
+}
+
+.overview-progress-badge.working {
+  background: #fff2d6;
+  color: #b97900;
+}
+
+.overview-progress-badge.default {
+  background: #edf1f6;
+  color: #66758a;
+}
+
+/* ==============================
+   REPORT LINK
+================================ */
+
+.overview-report-link {
+  color: #1768e6;
+
+  font-size: 10px;
+  font-weight: 650;
+
+  text-decoration: none;
+}
+
+.overview-report-link:hover {
+  text-decoration: underline;
+}
+
+/* ==============================
+   TIMELINE
+================================ */
+
+.overview-timeline-cell {
+  width: 31px;
+  min-width: 31px;
+
+  padding: 0 !important;
+
+  text-align: center;
+}
+
+.overview-timeline-cell.active {
+  background: #eaf2ff !important;
+  color: #1768e6;
+
+  font-size: 10px;
+}
+
+/* ==============================
+   PROGRESS VIEW
+================================ */
+
+.overview-progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+
+  padding: 26px;
+}
+
+.overview-progress-item {
+  padding: 15px 16px;
+
+  border: 1px solid #e6ebf2;
+  border-radius: 10px;
+
+  background: #fafcff;
+}
+
+.overview-progress-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-bottom: 10px;
+}
+
+.overview-progress-heading strong {
+  display: block;
+
+  color: #203653;
+
+  font-size: 12px;
+}
+
+.overview-progress-heading span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #8792a3;
+
+  font-size: 9px;
+}
+
+.overview-progress-heading b {
+  color: #1768e6;
+
+  font-size: 13px;
+}
+
+.overview-progress-track {
+  height: 9px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #e7ecf3;
+}
+
+.overview-progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    #1768e6,
+    #4a91f4
+  );
+
+  transition: width 0.3s;
+}
+
+/* ==============================
+   EMPTY
+================================ */
+
+.overview-va-empty,
+.overview-empty-cell {
+  padding: 70px 20px !important;
+
+  color: #8490a2;
+
+  text-align: center;
+}
+
+.overview-va-empty h3 {
+  margin: 0;
+
+  color: #263c5e;
+}
+
+.overview-va-empty p {
+  margin: 7px 0 0;
+
+  font-size: 11px;
+}
+
+/* ==============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1050px) {
+  .overview-va-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .overview-va-search {
+    width: 100%;
+  }
+
+  .overview-va-toolbar-right {
+    width: 100%;
+
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 750px) {
+  .overview-va-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .overview-va-toolbar-right {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .overview-excel-button {
+    width: 100%;
+  }
+
+  .overview-expand-actions {
+    width: 100%;
+  }
+
+  .overview-expand-actions button {
+    flex: 1;
+  }
+
+  .overview-column-wrapper {
+    width: 100%;
+  }
+
+  .overview-column-button {
+    width: 100%;
+  }
+
+  .overview-column-menu {
+    width: 100%;
+
+    position: static;
+
+    margin-top: 7px;
+  }
+
+  .overview-va-tabs {
+    width: 100%;
+  }
+
+  .overview-va-tabs button {
+    flex: 1;
+  }
+
+  .overview-description-cell {
+    min-width: 290px;
+  }
+}
+
+@media (max-width: 500px) {
+  .overview-progress-list {
+    padding: 16px;
+  }
+
+  .overview-progress-heading {
+    align-items: flex-start;
+  }
+}

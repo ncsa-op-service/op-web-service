@@ -2,6 +2,51 @@ export default function Home() {
   return (
     <main className="home-page">
       <div className="page-overlay">
+        {/* โค้ดวิ่ง */}
+        <div className="home-code-layer" aria-hidden="true">
+          <span className="home-code-line home-code-line-1">
+            01001010 11000101 SYSTEM_SECURE ACCESS_CONTROL SSL_TLS 00110101
+          </span>
+          <span className="home-code-line home-code-line-2">
+            NETWORK_MONITORING // AUTH_SUCCESS // OP_SERVICE // 101101001
+          </span>
+          <span className="home-code-line home-code-line-3">
+            NCSA • CYBER SECURITY • MONITORING • TLS • ACCESS CONTROL
+          </span>
+          <span className="home-code-line home-code-line-4">
+            11010101 00101101 10110010 01011010 11100010 00110110
+          </span>
+          <span className="home-code-line home-code-line-5">
+            SYSTEM READY // SECURE CHANNEL // NETWORK ACTIVE // 010101
+          </span>
+          <span className="home-code-line home-code-line-6">
+            AUTH_TOKEN VERIFIED • REQUEST 200 • SESSION ACTIVE • OP WEB SERVICE
+          </span>
+        </div>
+
+        {/* แสง / วงกลม / จุดฟ้า */}
+        <div className="home-fx-layer" aria-hidden="true">
+          <span className="home-orb orb-1" />
+          <span className="home-orb orb-2" />
+          <span className="home-orb orb-3" />
+          <span className="home-orb orb-4" />
+          <span className="home-orb orb-5" />
+          <span className="home-orb orb-6" />
+
+          <span className="home-dot dot-1" />
+          <span className="home-dot dot-2" />
+          <span className="home-dot dot-3" />
+          <span className="home-dot dot-4" />
+          <span className="home-dot dot-5" />
+          <span className="home-dot dot-6" />
+          <span className="home-dot dot-7" />
+          <span className="home-dot dot-8" />
+
+          <span className="home-ring ring-1" />
+          <span className="home-ring ring-2" />
+          <span className="home-ring ring-3" />
+        </div>
+
         {/* Header */}
         <header className="header">
           <div className="brand">

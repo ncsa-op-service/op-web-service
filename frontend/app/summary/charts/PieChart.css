@@ -1,130 +1,111 @@
 .pie-chart-container {
-  position: relative;
-
-  width: 100%;
-  height: 325px;
+  min-height: 300px;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 70px;
+
+  padding: 20px;
 }
 
-/* วงกลมหลัก */
 .pie-chart {
+  --pie-color-0: #1768e6;
+  --pie-color-1: #16a267;
+  --pie-color-2: #f0a11a;
+  --pie-color-3: #7c5ce7;
+
+  width: 210px;
+  height: 210px;
+
   position: relative;
 
-  width: 220px;
-  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   border-radius: 50%;
-
-  background: conic-gradient(
-    #58a6ff 0deg 73deg,
-    #a8ff60 73deg 125deg,
-    #ff6384 125deg 208deg,
-    #ffc857 208deg 297deg,
-    #b986f8 297deg 360deg
-  );
-
-  transform: rotate(-35deg);
 }
 
-/* รูตรงกลาง ทำให้เป็น Donut */
 .pie-hole {
-  position: absolute;
+  width: 118px;
+  height: 118px;
 
-  width: 135px;
-  height: 135px;
-
-  top: 50%;
-  left: 50%;
-
-  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   border-radius: 50%;
 
-  background: #514d4d;
+  background: #ffffff;
+
+  box-shadow: 0 3px 12px rgba(20, 45, 85, 0.08);
 }
 
-/* =========================
-   LABEL
-========================= */
+.pie-hole strong {
+  color: #102a5c;
 
-.pie-label {
-  position: absolute;
-
-  font-size: 11px;
-  font-weight: 500;
-
-  color: #ffffff;
-
-  white-space: nowrap;
+  font-size: 28px;
 }
 
-/* บน */
-.label-tue {
-  top: 38px;
-  left: 50%;
+.pie-hole span {
+  margin-top: 3px;
 
-  transform: translateX(-50%);
+  color: #8290a3;
+
+  font-size: 10px;
 }
 
-/* ขวาบน */
-.label-mon {
-  top: 105px;
-  left: calc(50% + 125px);
+.pie-legend {
+  min-width: 220px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-/* ขวาล่าง */
-.label-fri {
-  bottom: 55px;
-  left: calc(50% + 100px);
+.pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
 }
 
-/* ซ้ายล่าง */
-.label-thu {
-  bottom: 55px;
-  right: calc(50% + 100px);
+.pie-dot {
+  width: 11px;
+  height: 11px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
 }
 
-/* ซ้ายบน */
-.label-wed {
-  top: 105px;
-  right: calc(50% + 125px);
+.pie-dot-0 {
+  background: #1768e6;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+.pie-dot-1 {
+  background: #16a267;
+}
 
-@media (max-width: 600px) {
-  .pie-chart {
-    width: 180px;
-    height: 180px;
-  }
+.pie-dot-2 {
+  background: #f0a11a;
+}
 
-  .pie-hole {
-    width: 110px;
-    height: 110px;
-  }
+.pie-dot-3 {
+  background: #7c5ce7;
+}
 
-  .pie-label {
-    font-size: 9px;
-  }
+.pie-legend-item strong {
+  color: #263b5b;
 
-  .label-mon {
-    left: calc(50% + 100px);
-  }
+  font-size: 12px;
+}
 
-  .label-wed {
-    right: calc(50% + 100px);
-  }
+.pie-legend-item p {
+  margin: 3px 0 0;
 
-  .label-fri {
-    left: calc(50% + 80px);
-  }
+  color: #8490a2;
 
-  .label-thu {
-    right: calc(50% + 80px);
-  }
+  font-size: 10px;
 }

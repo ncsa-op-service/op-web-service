@@ -1,77 +1,170 @@
 import "./LineChart.css";
 
-export default function LineChart() {
+type ChartItem = {
+  label: string;
+  value: number;
+};
+
+type LineChartProps = {
+  data: ChartItem[];
+};
+
+export default function LineChart({
+  data,
+}: LineChartProps) {
+  const width = 1000;
+  const height = 260;
+
+  const paddingLeft = 70;
+  const paddingRight = 50;
+  const paddingTop = 35;
+  const paddingBottom = 55;
+
+  const maxValue = Math.max(
+    ...data.map((item) => item.value),
+    1
+  );
+
+  const graphWidth =
+    width -
+    paddingLeft -
+    paddingRight;
+
+  const graphHeight =
+    height -
+    paddingTop -
+    paddingBottom;
+
+  const points = data.map(
+    (item, index) => {
+      const x =
+        data.length <= 1
+          ? width / 2
+          : paddingLeft +
+            (index /
+              (data.length - 1)) *
+              graphWidth;
+
+      const y =
+        paddingTop +
+        graphHeight -
+        (item.value /
+          maxValue) *
+          graphHeight;
+
+      return {
+        ...item,
+        x,
+        y,
+      };
+    }
+  );
+
+  const pointString =
+    points
+      .map(
+        (point) =>
+          `${point.x},${point.y}`
+      )
+      .join(" ");
+
+  const steps = 4;
+
+  const gridValues =
+    Array.from(
+      {
+        length: steps + 1,
+      },
+      (_, index) =>
+        Math.round(
+          (maxValue / steps) *
+            index
+        )
+    ).reverse();
+
   return (
     <div className="line-chart-container">
-
-      {/* Y Axis */}
-      <span className="line-y y220">220</span>
-      <span className="line-y y165">165</span>
-      <span className="line-y y110">110</span>
-      <span className="line-y y55">55</span>
-      <span className="line-y y0">0</span>
-
-      {/* Grid */}
-      <div className="line-grid grid220" />
-      <div className="line-grid grid165" />
-      <div className="line-grid grid110" />
-      <div className="line-grid grid55" />
-      <div className="line-grid grid0" />
-
-      {/* Graph */}
       <svg
-        className="line-graph"
-        viewBox="0 0 1000 220"
+        className="line-chart-svg"
+        viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio="none"
       >
-        {/* GREEN LINE */}
-        <path
-          className="graph-line green-line"
-          d="
-            M 80 135
-            C 150 90, 220 75, 280 90
-            C 350 105, 420 120, 500 110
-            C 570 100, 620 25, 720 35
-            C 800 40, 860 55, 920 65
-          "
+        {gridValues.map(
+          (value, index) => {
+            const y =
+              paddingTop +
+              (index / steps) *
+                graphHeight;
+
+            return (
+              <g key={value}>
+                <line
+                  x1={paddingLeft}
+                  x2={
+                    width -
+                    paddingRight
+                  }
+                  y1={y}
+                  y2={y}
+                  className="line-grid"
+                />
+
+                <text
+                  x={
+                    paddingLeft -
+                    15
+                  }
+                  y={y + 4}
+                  textAnchor="end"
+                  className="line-y-label"
+                >
+                  {value}
+                </text>
+              </g>
+            );
+          }
+        )}
+
+        <polyline
+          points={pointString}
+          fill="none"
+          className="line-path"
         />
 
-        {/* GREEN POINTS */}
-        <circle className="green-point" cx="80" cy="135" r="6" />
-        <circle className="green-point" cx="280" cy="90" r="6" />
-        <circle className="green-point" cx="500" cy="110" r="6" />
-        <circle className="green-point" cx="720" cy="35" r="6" />
-        <circle className="green-point" cx="920" cy="65" r="6" />
+        {points.map(
+          (point) => (
+            <g key={point.label}>
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r="6"
+                className="line-point"
+              />
 
-        {/* BLUE LINE */}
-        <path
-          className="graph-line blue-line"
-          d="
-            M 80 170
-            C 150 120, 220 120, 280 130
-            C 350 140, 420 155, 500 150
-            C 570 140, 630 70, 720 88
-            C 800 90, 860 105, 920 115
-          "
-        />
+              <text
+                x={point.x}
+                y={point.y - 14}
+                textAnchor="middle"
+                className="line-value"
+              >
+                {point.value}
+              </text>
 
-        {/* BLUE POINTS */}
-        <circle className="blue-point" cx="80" cy="170" r="6" />
-        <circle className="blue-point" cx="280" cy="130" r="6" />
-        <circle className="blue-point" cx="500" cy="150" r="6" />
-        <circle className="blue-point" cx="720" cy="88" r="6" />
-        <circle className="blue-point" cx="920" cy="115" r="6" />
+              <text
+                x={point.x}
+                y={
+                  height -
+                  18
+                }
+                textAnchor="middle"
+                className="line-x-label"
+              >
+                {point.label}
+              </text>
+            </g>
+          )
+        )}
       </svg>
-
-      {/* X Axis */}
-      <div className="line-x-axis">
-        <span>Mon</span>
-        <span>Tue</span>
-        <span>Wed</span>
-        <span>Thu</span>
-        <span>Fri</span>
-      </div>
-
     </div>
   );
 }

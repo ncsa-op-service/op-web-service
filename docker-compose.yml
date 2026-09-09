@@ -3,7 +3,7 @@ services:
     build: ./frontend
     container_name: op_frontend
     ports:
-      - "3001:3000"
+      - "3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:4000
     depends_on:
@@ -37,7 +37,7 @@ services:
     container_name: op_postgres
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -73,4 +73,7 @@ services:
 
 volumes:
   postgres_data:
+    name: line-qr-checker_postgres_data
+
   mongo_data:
+    name: line-qr-checker_mongo_data

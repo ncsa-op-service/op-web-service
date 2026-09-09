@@ -1,82 +1,624 @@
+/* ==============================
+   GLOBAL FONT SCALE
+================================ */
+
+:root {
+  --app-font-scale: 1;
+}
+
+/* ==============================
+   NAVBAR
+================================ */
+
 .navbar {
   width: 100%;
   background: #031a49;
   color: white;
 }
 
+/* ==============================
+   TOP
+================================ */
+
 .navbar-top {
-  height: 52px;
+  min-height: 70px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 18px;
+
+  padding: 0 28px;
 }
+
+/* ==============================
+   BRAND
+================================ */
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 11px;
+
   color: white;
   text-decoration: none;
 }
 
 .navbar-logo {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
+
   object-fit: contain;
+
   background: white;
   border-radius: 50%;
 }
 
 .brand-title {
-  font-size: 14px;
+  font-size: calc(18px * var(--app-font-scale));
   font-weight: 700;
 }
 
 .brand-subtitle {
-  margin-top: 2px;
-  font-size: 6px;
+  margin-top: 3px;
+
+  font-size: calc(8px * var(--app-font-scale));
   font-weight: 500;
+
+  color: rgba(
+    255,
+    255,
+    255,
+    0.78
+  );
 }
 
+/* ==============================
+   USER AREA
+================================ */
+
+.navbar-user-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-login-label {
+  color: rgba(
+    255,
+    255,
+    255,
+    0.68
+  );
+
+  font-size: calc(13px * var(--app-font-scale));
+}
+
+.navbar-user-name {
+  color: #ffffff;
+
+  font-size: calc(15px * var(--app-font-scale));
+  font-weight: 700;
+}
+
+.navbar-user-avatar {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #1768d8;
+  color: #ffffff;
+
+  font-size: calc(14px * var(--app-font-scale));
+  font-weight: 700;
+}
+
+.navbar-role-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px 12px;
+
+  border-radius: 7px;
+
+  font-size: calc(12px * var(--app-font-scale));
+  font-weight: 700;
+}
+
+.navbar-role-badge.role-super_admin {
+  background: #655cf5;
+  color: #ffffff;
+}
+
+.navbar-role-badge.role-editor {
+  background: #16a267;
+  color: #ffffff;
+}
+
+.navbar-role-badge.role-viewer {
+  background: #655cf5;
+  color: #ffffff;
+}
+
+/* ==============================
+   USER DIVIDER
+================================ */
+
+.navbar-user-divider {
+  width: 1px;
+  height: 32px;
+
+  margin: 0 5px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.22
+  );
+}
+
+/* ==============================
+   LOGOUT
+================================ */
+
 .logout-button {
-  background: #0866e9;
+  min-height: 40px;
+
+  padding: 0 18px;
+
+  background: transparent;
   color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 7px 20px;
-  font-size: 11px;
+
+  border: 1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.75
+    );
+
+  border-radius: 8px;
+
+  font-size: calc(13px * var(--app-font-scale));
+  font-weight: 600;
+
   cursor: pointer;
+
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
 }
 
 .logout-button:hover {
-  background: #0055cc;
+  background: #ffffff;
+  color: #031a49;
 }
 
-.navbar-menu {
-  min-height: 48px;
+/* ==============================
+   HAMBURGER
+================================ */
+
+.navbar-more-wrapper {
+  position: relative;
+}
+
+.navbar-more-button {
+  width: 42px;
+  height: 40px;
+
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  border: 1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.75
+    );
+
+  border-radius: 8px;
+
+  background: transparent;
+  color: #ffffff;
+
+  font-size: calc(20px * var(--app-font-scale));
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.navbar-more-button:hover {
+  background: #ffffff;
+  color: #031a49;
+}
+
+/* ==============================
+   DROPDOWN
+================================ */
+
+.navbar-dropdown {
+  min-width: 210px;
+
+  position: absolute;
+
+  top: calc(
+    100% + 10px
+  );
+
+  right: 0;
+
+  z-index: 1000;
+
+  padding: 7px;
+
+  border: 1px solid
+    #dde4ef;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 12px 35px
+    rgba(
+      3,
+      26,
+      73,
+      0.18
+    );
+}
+
+.navbar-dropdown button {
+  width: 100%;
+
+  padding: 11px 13px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #14274a;
+
+  text-align: left;
+
+  font-size: calc(13px * var(--app-font-scale));
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.navbar-dropdown button:hover {
+  background: #eef4ff;
+  color: #1764d8;
+}
+
+/* ==============================
+   MENU
+================================ */
+
+.navbar-menu {
+  min-height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 0 28px;
+
+  background: #063276;
+}
+
+/* ==============================
+   MENU LINKS
+================================ */
+
+.navbar-menu-links {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
   gap: 25px;
-  padding: 0 24px;
 }
 
 .navbar-link {
+  flex-shrink: 0;
+
   color: white;
   text-decoration: none;
-  padding: 11px 8px;
-  font-size: 15px;
-  border-radius: 4px;
-  transition: 0.2s;
+
+  padding: 11px 12px;
+
+  font-size: calc(15px * var(--app-font-scale));
+
+  border-radius: 6px;
+
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .navbar-link:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(
+    255,
+    255,
+    255,
+    0.12
+  );
 }
 
 .navbar-link.active {
   background: white;
   color: #031a49;
-  padding-left: 10px;
-  padding-right: 10px;
+}
+
+/* ==============================
+   FONT SIZE CONTROL
+================================ */
+
+.navbar-font-control {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 5px 7px;
+
+  border: 1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.18
+    );
+
+  border-radius: 10px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.06
+  );
+}
+
+.font-control-label {
+  margin-left: 3px;
+
+  color: rgba(
+    255,
+    255,
+    255,
+    0.78
+  );
+
+  font-size: calc(10px * var(--app-font-scale));
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+.font-control-buttons {
+  display: flex;
+  align-items: center;
+
+  gap: 3px;
+}
+
+.font-control-button {
+  width: 34px;
+  height: 32px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.30
+    );
+
+  border-radius: 6px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.08
+  );
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s,
+    color 0.18s,
+    border-color 0.18s,
+    transform 0.18s;
+}
+
+.font-control-button:hover:not(:disabled) {
+  background: #ffffff;
+  color: #063276;
+
+  border-color: #ffffff;
+
+  transform:
+    translateY(-1px);
+}
+
+.font-control-button:active:not(:disabled) {
+  transform:
+    translateY(0);
+}
+
+.font-control-button:disabled {
+  opacity: 0.35;
+
+  cursor: not-allowed;
+}
+
+.font-small {
+  font-size: calc(11px * var(--app-font-scale));
+}
+
+.font-reset {
+  font-size: calc(13px * var(--app-font-scale));
+}
+
+.font-large {
+  font-size: calc(14px * var(--app-font-scale));
+}
+
+.font-scale-value {
+  min-width: 35px;
+
+  margin-right: 2px;
+
+  color: rgba(
+    255,
+    255,
+    255,
+    0.78
+  );
+
+  font-size: calc(9px * var(--app-font-scale));
+  font-weight: 600;
+
+  text-align: center;
+
+  white-space: nowrap;
+}
+
+/* ==============================
+   RESPONSIVE 1100
+================================ */
+
+@media (
+  max-width: 1100px
+) {
+  .font-control-label {
+    display: none;
+  }
+
+  .font-scale-value {
+    display: none;
+  }
+
+  .navbar-menu-links {
+    gap: 12px;
+  }
+}
+
+/* ==============================
+   RESPONSIVE 900
+================================ */
+
+@media (
+  max-width: 900px
+) {
+  .navbar-login-label {
+    display: none;
+  }
+
+  .navbar-user-name {
+    display: none;
+  }
+
+  .navbar-menu {
+    gap: 10px;
+  }
+
+  .navbar-menu-links {
+    gap: 6px;
+  }
+
+  .navbar-link {
+    padding:
+      10px 8px;
+
+    font-size: calc(13px * var(--app-font-scale));
+  }
+}
+
+/* ==============================
+   RESPONSIVE 700
+================================ */
+
+@media (
+  max-width: 700px
+) {
+  .navbar-top {
+    padding:
+      12px 16px;
+
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+
+    gap: 12px;
+  }
+
+  .navbar-user-area {
+    width: 100%;
+
+    overflow-x: auto;
+  }
+
+  .navbar-user-divider {
+    margin-left: auto;
+  }
+
+  .navbar-menu {
+    padding:
+      6px 16px;
+
+    overflow-x: auto;
+
+    gap: 12px;
+  }
+
+  .navbar-menu-links {
+    flex-shrink: 0;
+
+    gap: 8px;
+  }
+
+  .navbar-link {
+    white-space: nowrap;
+  }
+
+  .navbar-font-control {
+    flex-shrink: 0;
+  }
 }

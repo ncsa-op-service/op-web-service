@@ -1,0 +1,475 @@
+.ssl-edit-shell {
+
+  width: min(1600px, calc(100% - 28px));
+
+  margin: 0 auto;
+
+  padding: 26px 0 42px;
+
+}
+
+.ssl-edit-topbar {
+
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 16px;
+
+}
+
+.ssl-edit-topbar h1 {
+
+  margin: 5px 0 4px;
+
+  color: #102949;
+
+  font-size: calc(24px * var(--app-font-scale, 1));
+
+}
+
+.ssl-edit-topbar p {
+
+  margin: 0;
+
+  color: #7b8ba1;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+
+}
+
+.ssl-edit-back {
+
+  margin-right: 10px;
+
+  border: 0;
+
+  background: transparent;
+
+  color: #1768e6;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+}
+
+.ssl-edit-job-meta {
+
+  min-width: 260px;
+
+  padding: 12px 14px;
+
+  border: 1px solid #dce5f0;
+
+  border-radius: 10px;
+
+  background: #fff;
+
+}
+
+.ssl-edit-job-meta span,
+
+.ssl-edit-job-meta small {
+
+  display: block;
+
+  color: #7f8da1;
+
+  font-size: calc(8px * var(--app-font-scale, 1));
+
+}
+
+.ssl-edit-job-meta strong {
+
+  display: block;
+
+  margin: 3px 0;
+
+  color: #1c3454;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+
+}
+
+.ssl-edit-control-card {
+
+  display: grid;
+
+  grid-template-columns: minmax(340px, 1fr) 150px 150px auto;
+
+  align-items: end;
+
+  gap: 14px;
+
+  margin-bottom: 16px;
+
+  padding: 16px;
+
+  border: 1px solid #dce5f0;
+
+  border-radius: 12px;
+
+  background: #fff;
+
+}
+
+.ssl-edit-control-card label {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #667890;
+
+  font-size: calc(8px * var(--app-font-scale, 1));
+
+  font-weight: 800;
+
+}
+
+.ssl-edit-control-card select {
+
+  width: 100%;
+
+  min-height: 40px;
+
+  padding: 0 10px;
+
+  border: 1px solid #cfdae8;
+
+  border-radius: 8px;
+
+  background: #fff;
+
+  color: #1c3454;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+
+  font-weight: 700;
+
+}
+
+.ssl-edit-control-summary {
+
+  padding: 8px 12px;
+
+  border-left: 1px solid #e4ebf3;
+
+}
+
+.ssl-edit-control-summary span {
+
+  display: block;
+
+  color: #8190a3;
+
+  font-size: calc(8px * var(--app-font-scale, 1));
+
+}
+
+.ssl-edit-control-summary strong {
+
+  display: block;
+
+  margin-top: 2px;
+
+  color: #173151;
+
+  font-size: calc(19px * var(--app-font-scale, 1));
+
+}
+
+.ssl-edit-save,
+
+.ssl-edit-return,
+
+.ssl-edit-denied button {
+
+  min-height: 40px;
+
+  padding: 0 16px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #1768e6;
+
+  color: #fff;
+
+  font-size: calc(9px * var(--app-font-scale, 1));
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+}
+
+.ssl-edit-save:disabled {
+
+  opacity: .45;
+
+  cursor: not-allowed;
+
+}
+
+.ssl-edit-warning,
+
+.ssl-edit-success {
+
+  margin-bottom: 14px;
+
+  padding: 11px 14px;
+
+  border-radius: 9px;
+
+  font-size: calc(9px * var(--app-font-scale, 1));
+
+  font-weight: 700;
+
+}
+
+.ssl-edit-warning {
+
+  border: 1px solid #f1d693;
+
+  background: #fff8e6;
+
+  color: #956600;
+
+}
+
+.ssl-edit-success {
+
+  border: 1px solid #bfe4cf;
+
+  background: #eefaf3;
+
+  color: #147744;
+
+}
+
+.ssl-edit-table-card {
+
+  border: 1px solid #dce5f0;
+
+  border-radius: 12px;
+
+  background: #fff;
+
+  overflow: hidden;
+
+}
+
+.ssl-edit-table-title {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 14px;
+
+  padding: 15px 17px;
+
+  border-bottom: 1px solid #e7edf4;
+
+}
+
+.ssl-edit-table-title h2 {
+
+  margin: 0;
+
+  color: #173151;
+
+  font-size: calc(14px * var(--app-font-scale, 1));
+
+}
+
+.ssl-edit-table-title p {
+
+  margin: 4px 0 0;
+
+  color: #8290a3;
+
+  font-size: calc(8px * var(--app-font-scale, 1));
+
+}
+
+.ssl-edit-return {
+
+  background: #edf4ff;
+
+  color: #1768e6;
+
+}
+
+.ssl-edit-table {
+
+  min-width: 1650px;
+
+}
+
+.ssl-edit-input {
+
+  border: 1px solid #d5deea;
+
+  border-radius: 6px;
+
+  background: #fff;
+
+  color: #203854;
+
+  font-size: calc(8px * var(--app-font-scale, 1));
+
+  outline: none;
+
+}
+
+.ssl-edit-input:focus {
+
+  border-color: #1768e6;
+
+  box-shadow: 0 0 0 2px rgba(23, 104, 230, .08);
+
+}
+
+.ssl-edit-status {
+
+  min-width: 135px;
+
+  height: 32px;
+
+  padding: 0 7px;
+
+}
+
+.ssl-edit-date {
+
+  width: 175px;
+
+  height: 32px;
+
+  padding: 0 7px;
+
+}
+
+.ssl-edit-days {
+
+  width: 80px;
+
+  height: 32px;
+
+  padding: 0 7px;
+
+}
+
+.ssl-edit-text {
+
+  min-width: 220px;
+
+  height: 32px;
+
+  padding: 0 7px;
+
+}
+
+.ssl-edit-page-button {
+
+  min-height: 35px;
+
+  padding: 0 13px;
+
+  border: 1px solid #c7daf8;
+
+  border-radius: 7px;
+
+  background: #eef5ff;
+
+  color: #1768e6;
+
+  font-size: calc(8px * var(--app-font-scale, 1));
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+}
+
+.ssl-edit-page-button:hover:not(:disabled) {
+
+  background: #e3efff;
+
+}
+
+.ssl-edit-page-button:disabled {
+
+  opacity: .45;
+
+  cursor: not-allowed;
+
+}
+
+.ssl-edit-denied {
+
+  max-width: 520px;
+
+  margin: 80px auto;
+
+  padding: 28px;
+
+  border: 1px solid #dce5f0;
+
+  border-radius: 14px;
+
+  background: #fff;
+
+  text-align: center;
+
+}
+
+.ssl-edit-denied h1 {
+
+  margin: 0 0 8px;
+
+  color: #173151;
+
+}
+
+.ssl-edit-denied p {
+
+  margin: 0 0 18px;
+
+  color: #7f8da1;
+
+}
+
+@media (max-width: 980px) {
+
+  .ssl-edit-control-card {
+
+    grid-template-columns: 1fr 1fr;
+
+  }
+
+  .ssl-edit-topbar {
+
+    align-items: stretch;
+
+    flex-direction: column;
+
+  }
+
+  .ssl-edit-job-meta {
+
+    min-width: 0;
+
+  }
+
+}

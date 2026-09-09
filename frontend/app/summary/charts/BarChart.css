@@ -1,50 +1,78 @@
 .bar-chart-wrapper {
-  height: 330px;
-  padding: 30px 50px;
+  width: 100%;
+  height: 300px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bar-chart-area {
-  height: 100%;
+  width: min(900px, 100%);
+  height: 250px;
+
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
-  border-bottom: 1px solid #aaa;
+  gap: 28px;
+
+  padding: 20px 30px 0;
 }
 
 .bar-item {
   height: 100%;
-  width: 100px;
+
+  flex: 1;
 
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: flex-end;
+}
 
-  gap: 8px;
+.bar-value {
+  margin-bottom: 8px;
+
+  color: #1b2f52;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.bar-track {
+  width: 58px;
+  height: 190px;
+
+  display: flex;
+  align-items: flex-end;
+
+  border-radius: 10px 10px 0 0;
+
+  background: #edf2f8;
 }
 
 .bar {
-  width: 55px;
-  background: #a8ff60;
+  width: 100%;
+  min-height: 4px;
+
+  border-radius: 10px 10px 0 0;
+
+  background: linear-gradient(
+    180deg,
+    #1768e6,
+    #0e4fae
+  );
+
+  transition: height 0.3s ease;
 }
 
-.bar-one {
-  height: 90px;
-}
+.bar-item > span {
+  margin-top: 12px;
 
-.bar-two {
-  height: 160px;
-}
+  color: #64748b;
 
-.bar-three {
-  height: 210px;
-}
+  font-size: 11px;
+  font-weight: 650;
 
-.bar-four {
-  height: 180px;
-}
-
-.bar-item span {
-  font-size: 12px;
-  color: white;
+  text-align: center;
 }

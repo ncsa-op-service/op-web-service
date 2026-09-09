@@ -1,141 +1,4347 @@
+* {
+  box-sizing: border-box;
+}
+
 .clab-page {
-  min-height: calc(100vh - 100px);
-  background: #f6f3ef;
-  color: #111;
-  padding: 28px 24px 50px;
+  min-height: calc(100vh - 124px);
+  padding: 34px 30px 54px;
+
+  background: #f5f7fb;
+  color: #13233f;
 }
 
 .clab-container {
-  width: 100%;
-  max-width: 1400px;
+  width: min(1450px, 100%);
   margin: 0 auto;
 }
 
-.clab-breadcrumb {
-  font-size: 15px;
-  margin: 0 0 12px;
+/* ==============================
+   HEADER
+================================ */
+
+.clab-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 24px;
 }
 
-.clab-divider {
-  width: 100%;
-  height: 4px;
-  background: #d7d7d7;
-  margin-bottom: 18px;
+.clab-heading h1 {
+  margin: 0;
+
+  color: #09275b;
+
+  font-size: calc(36px * var(--app-font-scale, 1));
+  font-weight: 750;
+  letter-spacing: -0.5px;
 }
 
-.clab-title {
-  margin: 0 0 18px;
-  font-size: 42px;
-  font-weight: 400;
+.clab-subtitle {
+  margin: 5px 0 0;
+
+  color: #1768e6;
+
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 700;
 }
 
-/* IMPORT BUTTON */
+.clab-description {
+  margin: 6px 0 0;
 
-.import-btn {
+  color: #77849a;
+
+  font-size: calc(13px * var(--app-font-scale, 1));
+}
+
+.clab-import-button {
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 18px;
+
+  border-radius: 8px;
+
+  background: #1768e6;
+  color: #ffffff;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.clab-import-button:hover {
+  background: #1159c8;
+
+  transform: translateY(-1px);
+}
+
+/* ==============================
+   SHEET SELECTOR
+================================ */
+
+.clab-sheet-card {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  gap: 20px;
 
-  margin-bottom: 20px;
-  padding: 6px 10px;
+  margin-bottom: 18px;
+  padding: 16px 18px;
+
+  border: 1px solid #dce5f0;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow: 0 4px 14px rgba(18, 44, 85, 0.04);
+}
+
+.clab-sheet-file {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.clab-sheet-file span {
+  color: #8490a3;
+
+  font-size: calc(9px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.clab-sheet-file strong {
+  max-width: 420px;
+
+  overflow: hidden;
+
+  color: #183052;
+
+  font-size: calc(13px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-sheet-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.clab-sheet-select {
+  width: 300px;
+  height: 40px;
+
+  padding: 0 12px;
+
+  border: 1px solid #d7e0ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #263a58;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.clab-sheet-select:focus {
+  border-color: #1768e6;
+
+  box-shadow: 0 0 0 3px rgba(23, 104, 230, 0.08);
+}
+
+.clab-load-sheet-button {
+  height: 40px;
+
+  padding: 0 18px;
 
   border: none;
-  background: #c8c8c8;
+  border-radius: 8px;
 
-  color: #111;
-  font-size: 10px;
+  background: #1768e6;
+  color: #ffffff;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.clab-load-sheet-button:hover:not(:disabled) {
+  background: #1159c8;
+}
+
+.clab-load-sheet-button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+/* ==============================
+   BEFORE SELECT SHEET
+================================ */
+
+.clab-welcome-card {
+  min-height: 340px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 35px;
+
+  border: 1px solid #e1e7ef;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow: 0 7px 22px rgba(18, 44, 85, 0.05);
+
+  text-align: center;
+}
+
+.clab-welcome-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  border-radius: 14px;
+
+  background: #edf4ff;
+  color: #1768e6;
+
+  font-size: calc(24px * var(--app-font-scale, 1));
+}
+
+.clab-welcome-card h2 {
+  margin: 0;
+
+  color: #1c3558;
+
+  font-size: calc(18px * var(--app-font-scale, 1));
+}
+
+.clab-welcome-card p {
+  max-width: 560px;
+
+  margin: 10px 0 0;
+
+  color: #7d899b;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+  line-height: 1.7;
+}
+
+/* ==============================
+   TOOLBAR
+================================ */
+
+.clab-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-bottom: 18px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow: 0 4px 14px rgba(18, 44, 85, 0.03);
+}
+
+.clab-search {
+  width: min(500px, 100%);
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0 12px;
+
+  border: 1px solid #d9e1ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  transition: 0.2s;
+}
+
+.clab-search:focus-within {
+  border-color: #1768e6;
+
+  box-shadow: 0 0 0 3px rgba(23, 104, 230, 0.07);
+}
+
+.clab-search span {
+  color: #7c899d;
+
+  font-size: calc(15px * var(--app-font-scale, 1));
+}
+
+.clab-search input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: #253954;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+}
+
+.clab-total {
+  color: #748197;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* ==============================
+   TOOLBAR RIGHT
+================================ */
+
+.clab-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ==============================
+   COLUMN PICKER
+================================ */
+
+.clab-column-picker-wrapper {
+  position: relative;
+}
+
+.clab-column-button {
+  height: 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 0 15px;
+
+  border: 1px solid #d7e0ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #263a58;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.clab-column-button:hover {
+  border-color: #1768e6;
+
+  background: #f3f7ff;
+  color: #1768e6;
+}
+
+/* dropdown */
+
+.clab-column-menu {
+  width: 330px;
+  max-height: 450px;
+
+  position: absolute;
+  z-index: 100;
+
+  top: calc(100% + 8px);
+  right: 0;
+
+  overflow: hidden;
+
+  border: 1px solid #dce4ef;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 15px 40px rgba(20, 45, 85, 0.16);
+}
+
+.clab-column-menu-header {
+  min-height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 14px;
+
+  border-bottom: 1px solid #edf0f4;
+}
+
+.clab-column-menu-header strong {
+  color: #183052;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-column-menu-header button {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #77859a;
+
+  font-size: calc(18px * var(--app-font-scale, 1));
 
   cursor: pointer;
 }
 
-.import-dot {
-  width: 9px;
-  height: 9px;
+.clab-column-menu-header button:hover {
+  background: #f2f5f9;
 
-  background: #111;
-  border-radius: 50%;
+  color: #203653;
 }
 
-/* CHART CARD */
+/* Select all / clear */
 
-.clab-chart-card {
-  width: 100%;
-  background: #514d4d;
-  color: white;
+.clab-column-actions {
+  display: flex;
+  gap: 8px;
+
+  padding: 10px 12px;
+
+  border-bottom: 1px solid #edf0f4;
+
+  background: #fafcff;
+}
+
+.clab-column-actions button {
+  flex: 1;
+
+  min-height: 32px;
+
+  border: 1px solid #dce4ef;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #52647e;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.clab-column-actions button:hover {
+  border-color: #1768e6;
+
+  background: #f3f7ff;
+  color: #1768e6;
+}
+
+/* checkbox list */
+
+.clab-column-list {
+  max-height: 320px;
+
+  overflow-y: auto;
+
+  padding: 7px;
+}
+
+.clab-column-option {
+  min-height: 38px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 7px 9px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  transition: 0.15s;
+}
+
+.clab-column-option:hover {
+  background: #f5f8fd;
+}
+
+.clab-column-option input {
+  width: 15px;
+  height: 15px;
+
+  flex-shrink: 0;
+
+  accent-color: #1768e6;
+
+  cursor: pointer;
+}
+
+.clab-column-option span {
   overflow: hidden;
+
+  color: #42536c;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* scrollbar */
+
+.clab-column-list::-webkit-scrollbar {
+  width: 7px;
+}
+
+.clab-column-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.clab-column-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background: #d7dfeb;
+}
+
+/* ==============================
+   MAIN CARD
+================================ */
+
+.clab-main-card {
+  overflow: hidden;
+
+  margin-bottom: 18px;
+
+  border: 1px solid #e1e7ef;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow: 0 7px 22px rgba(18, 44, 85, 0.05);
 }
 
 .clab-card-header {
-  min-height: 55px;
-
-  padding: 9px 12px;
+  min-height: 78px;
 
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
+  gap: 20px;
 
-  border-bottom: 1px solid #333;
+  padding: 18px 22px;
+
+  border-bottom: 1px solid #e8edf3;
 }
 
-.clab-card-header h3 {
-  margin: 0 0 5px;
+.clab-card-header h2 {
+  margin: 0;
 
-  font-size: 12px;
-  font-weight: 400;
+  color: #11294f;
+
+  font-size: calc(19px * var(--app-font-scale, 1));
+  font-weight: 700;
 }
 
 .clab-card-header p {
-  margin: 0;
+  margin: 5px 0 0;
 
-  color: #d3d3d3;
-  font-size: 8px;
+  color: #7b8799;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
 }
 
-/* BAR / PIE / LINE BUTTON */
+/* ==============================
+   TABLE
+================================ */
 
-.clab-tabs {
+.clab-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+.clab-table {
+  width: 100%;
+
+  min-width: 1150px;
+
+  border-collapse: collapse;
+}
+
+.clab-table thead {
+  background: #f7f9fc;
+}
+
+.clab-table th {
+  padding: 13px 14px;
+
+  border-bottom: 1px solid #e6ebf2;
+
+  color: #66748a;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 750;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+.clab-table td {
+  padding: 14px;
+
+  border-bottom: 1px solid #edf0f4;
+
+  color: #334157;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+
+  vertical-align: middle;
+}
+
+.clab-table tbody tr {
+  transition: 0.15s;
+}
+
+.clab-table tbody tr:hover {
+  background: #fafcff;
+}
+
+.clab-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.clab-empty {
+  height: 220px;
+
+  color: #8490a2;
+
+  text-align: center;
+}
+
+/* ==============================
+   NO COLUMN
+================================ */
+
+.clab-no-columns {
+  min-height: 230px;
+
   display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  color: #8490a2;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+
+  text-align: center;
 }
 
-.clab-tabs button {
-  width: 55px;
-  height: 29px;
+/* ==============================
+   GENERIC SHEET
+================================ */
 
-  border: 1px solid #333;
+.clab-generic-table {
+  min-width: max-content;
+}
 
-  background: #bfc1c1;
-  color: #111;
+.clab-generic-table th {
+  max-width: 280px;
 
-  font-size: 9px;
+  white-space: normal;
+}
+
+.clab-generic-table td {
+  max-width: 320px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ==============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1050px) {
+}
+
+@media (max-width: 850px) {
+  .clab-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-search {
+    width: 100%;
+  }
+
+  .clab-toolbar-right {
+    width: 100%;
+
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 750px) {
+  .clab-page {
+    padding: 26px 16px 42px;
+  }
+
+  .clab-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-heading h1 {
+    font-size: calc(30px * var(--app-font-scale, 1));
+  }
+
+  .clab-import-button {
+    width: fit-content;
+  }
+
+  .clab-sheet-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-sheet-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-sheet-select,
+  .clab-load-sheet-button {
+    width: 100%;
+  }
+
+  .clab-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .clab-toolbar-right {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-column-picker-wrapper {
+    width: 100%;
+  }
+
+  .clab-column-button {
+    width: 100%;
+  }
+
+  .clab-column-menu {
+    width: 100%;
+
+    position: static;
+
+    margin-top: 8px;
+  }
+
+  .clab-total {
+    text-align: right;
+  }
+}
+
+/* ==============================
+   CLAB SNAPSHOT / AUTO DETECT
+================================ */
+
+.clab-heading-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.clab-save-button {
+  min-height: 42px;
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: #14864b;
+  color: #ffffff;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 750;
 
   cursor: pointer;
 }
 
-.clab-tabs button.active {
-  background: #35d412;
+.clab-save-button:hover:not(:disabled) {
+  background: #10713f;
 }
 
-.clab-tabs button:hover {
-  opacity: 0.9;
+.clab-save-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
-.chart-area {
+.clab-snapshot-badge {
+  min-height: 42px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 7px 12px;
+
+  border: 1px solid #dce5f0;
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+.clab-snapshot-badge span {
+  color: #8490a3;
+  font-size: calc(8px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-snapshot-badge strong {
+  margin-top: 2px;
+
+  color: #1d365b;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-message {
+  margin-bottom: 14px;
+  padding: 10px 13px;
+
+  border-radius: 8px;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-message.success {
+  border: 1px solid #bee3cd;
+  background: #eefaf3;
+  color: #147845;
+}
+
+.clab-message.error {
+  border: 1px solid #f0c3c3;
+  background: #fff2f2;
+  color: #b93333;
+}
+
+.clab-detect-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  margin-bottom: 14px;
+  padding: 12px 15px;
+
+  border: 1px solid #cfe0f6;
+  border-radius: 10px;
+
+  background: #f4f8ff;
+}
+
+.clab-detect-card div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.clab-detect-card span {
+  color: #718096;
+  font-size: calc(9px * var(--app-font-scale, 1));
+}
+
+.clab-detect-card strong {
+  color: #1768e6;
+  font-size: calc(12px * var(--app-font-scale, 1));
+}
+
+.clab-detect-card b {
+  color: #35516f;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+@media (max-width: 750px) {
+  .clab-heading-actions {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-import-button,
+  .clab-save-button,
+  .clab-snapshot-badge {
+    width: 100%;
+  }
+
+  .clab-detect-card,
+  .clab-detect-card div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* ==============================
+   CLAB SNAPSHOT / AUTO DETECT
+================================ */
+
+.clab-heading-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.clab-save-button {
+  min-height: 42px;
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: #14864b;
+  color: #ffffff;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.clab-save-button:hover:not(:disabled) {
+  background: #10713f;
+}
+
+.clab-save-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.clab-snapshot-badge {
+  min-height: 42px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 7px 12px;
+
+  border: 1px solid #dce5f0;
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+.clab-snapshot-badge span {
+  color: #8490a3;
+  font-size: calc(8px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-snapshot-badge strong {
+  margin-top: 2px;
+
+  color: #1d365b;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-message {
+  margin-bottom: 14px;
+  padding: 10px 13px;
+
+  border-radius: 8px;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-message.success {
+  border: 1px solid #bee3cd;
+  background: #eefaf3;
+  color: #147845;
+}
+
+.clab-message.error {
+  border: 1px solid #f0c3c3;
+  background: #fff2f2;
+  color: #b93333;
+}
+
+.clab-detect-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  margin-bottom: 14px;
+  padding: 12px 15px;
+
+  border: 1px solid #cfe0f6;
+  border-radius: 10px;
+
+  background: #f4f8ff;
+}
+
+.clab-detect-card div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.clab-detect-card span {
+  color: #718096;
+  font-size: calc(9px * var(--app-font-scale, 1));
+}
+
+.clab-detect-card strong {
+  color: #1768e6;
+  font-size: calc(12px * var(--app-font-scale, 1));
+}
+
+.clab-detect-card b {
+  color: #35516f;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+@media (max-width: 750px) {
+  .clab-heading-actions {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-import-button,
+  .clab-save-button,
+  .clab-snapshot-badge {
+    width: 100%;
+  }
+
+  .clab-detect-card,
+  .clab-detect-card div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
+/* ==============================
+   CLAB SAVED ITEMS
+================================ */
+
+.clab-saved-section {
+  margin-top: 24px;
+  padding: 18px;
+
+  border: 1px solid #dfe6ef;
+  border-radius: 14px;
+
+  background: #ffffff;
+  box-shadow: 0 7px 22px rgba(18, 44, 85, 0.05);
+}
+
+.clab-saved-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 14px;
+}
+
+.clab-saved-heading h2 {
+  margin: 0;
+  color: #11294f;
+  font-size: calc(18px * var(--app-font-scale, 1));
+}
+
+.clab-saved-heading p {
+  margin: 5px 0 0;
+  color: #7b8799;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-saved-heading > span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #edf4ff;
+  color: #1768e6;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 750;
+}
+
+.clab-saved-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(250px, 1fr)
+    );
+  gap: 12px;
+}
+
+.clab-saved-card {
+  padding: 15px;
+
+  border: 1px solid #e0e6ee;
+  border-radius: 11px;
+
+  background: #fafcff;
+}
+
+.clab-saved-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.clab-saved-card-top span {
+  color: #1768e6;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 800;
+}
+
+.clab-saved-card-top b {
+  color: #6c7d94;
+  font-size: calc(9px * var(--app-font-scale, 1));
+}
+
+.clab-saved-card h3 {
+  margin: 9px 0 5px;
+  color: #1b3559;
+  font-size: calc(13px * var(--app-font-scale, 1));
+}
+
+.clab-saved-card p {
+  margin: 0;
+  overflow: hidden;
+
+  color: #6e7c90;
+  font-size: calc(9px * var(--app-font-scale, 1));
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-saved-card small {
+  display: block;
+  margin-top: 7px;
+
+  color: #8a96a7;
+  font-size: calc(8px * var(--app-font-scale, 1));
+}
+
+.clab-saved-actions {
+  display: flex;
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+.clab-saved-actions button {
+  min-height: 34px;
+  flex: 1;
+
+  border-radius: 7px;
+
+  font-size: calc(9px * var(--app-font-scale, 1));
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.clab-saved-actions .view {
+  border: 1px solid #c9daf5;
+  background: #eef5ff;
+  color: #1768e6;
+}
+
+.clab-saved-actions .edit {
+  border: 1px solid #d7e0eb;
+  background: #ffffff;
+  color: #40536f;
+}
+
+.clab-saved-empty {
+  padding: 36px;
+
+  color: #8a96a7;
+  text-align: center;
+  font-size: calc(11px * var(--app-font-scale, 1));
+}
+
+/* ==============================
+   CONFIRM / EDIT MODAL
+================================ */
+
+.clab-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(8, 24, 47, 0.48);
+}
+
+.clab-confirm-modal,
+.clab-edit-modal {
+  width: min(720px, 96vw);
+  max-height: 90vh;
+
+  overflow: hidden;
+
+  border-radius: 14px;
+  background: #ffffff;
+
+  box-shadow:
+    0 24px 70px
+    rgba(8, 29, 61, 0.24);
+}
+
+.clab-edit-modal {
+  width: min(1400px, 97vw);
+}
+
+.clab-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+
+  padding: 18px 20px;
+
+  border-bottom: 1px solid #e7ecf2;
+}
+
+.clab-modal-header span {
+  color: #7b8799;
+  font-size: calc(9px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-modal-header h2 {
+  margin: 4px 0 0;
+
+  color: #11294f;
+  font-size: calc(18px * var(--app-font-scale, 1));
+}
+
+.clab-modal-header > button {
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid #d8e0ea;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #40536f;
+
+  font-size: calc(18px * var(--app-font-scale, 1));
+  cursor: pointer;
+}
+
+.clab-confirm-summary {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 10px;
+
+  padding: 18px 20px 8px;
+}
+
+.clab-confirm-summary > div {
+  padding: 12px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+
+  background: #f8fafc;
+}
+
+.clab-confirm-summary span {
+  display: block;
+
+  color: #8290a5;
+  font-size: calc(8px * var(--app-font-scale, 1));
+}
+
+.clab-confirm-summary strong {
+  display: block;
+  margin-top: 5px;
+
+  color: #1c3558;
+  font-size: calc(11px * var(--app-font-scale, 1));
+}
+
+.clab-confirm-note {
+  margin: 10px 20px 0;
+  padding: 11px 12px;
+
+  border-radius: 8px;
+
+  background: #fff8e7;
+  color: #8a6410;
+
+  font-size: calc(9px * var(--app-font-scale, 1));
+  line-height: 1.6;
+}
+
+.clab-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+
+  padding: 14px 20px 18px;
+
+  border-top: 1px solid #e8edf3;
+}
+
+.clab-modal-actions button {
+  min-height: 38px;
+  padding: 0 15px;
+
+  border-radius: 8px;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.clab-modal-actions .cancel {
+  border: 1px solid #d7e0eb;
+  background: #ffffff;
+  color: #52657f;
+}
+
+.clab-modal-actions .confirm {
+  border: 0;
+  background: #1768e6;
+  color: #ffffff;
+}
+
+.clab-modal-actions .confirm:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.clab-edit-table-wrapper {
+  max-height: calc(90vh - 145px);
+  overflow: auto;
+}
+
+.clab-edit-table {
+  min-width: max-content;
+
+  border-collapse: collapse;
+}
+
+.clab-edit-table td {
+  min-width: 150px;
+  padding: 4px;
+
+  border: 1px solid #e3e8ef;
+}
+
+.clab-edit-table input {
   width: 100%;
-  min-height: 390px;
+  min-height: 34px;
+
+  padding: 0 8px;
+
+  border: 1px solid #d7e0eb;
+  border-radius: 6px;
+
+  color: #31445f;
+  font-size: calc(9px * var(--app-font-scale, 1));
 }
 
-@media (max-width: 800px) {
+.clab-edit-table input:focus {
+  border-color: #1768e6;
+  outline: none;
+}
+
+@media (max-width: 700px) {
+  .clab-confirm-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .clab-saved-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* =========================================================
+   CLAB DASHBOARD REDESIGN
+   วางไว้ท้ายไฟล์เพื่อให้หน้าหลักใช้หน้าตาตาม Mockup ใหม่
+========================================================= */
+
+.clab-page {
+  min-height: calc(100vh - 92px);
+  padding: 34px clamp(22px, 3vw, 54px) 48px;
+  background: #f7f9fc;
+  color: #0b2149;
+}
+
+.clab-container {
+  width: min(1500px, 100%);
+  margin: 0 auto;
+}
+
+.clab-heading {
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.clab-heading h1 {
+  color: #071f49;
+  font-size: clamp(36px, 3.2vw, 50px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+}
+
+.clab-heading .clab-description {
+  margin-top: 7px;
+  color: #6b7c96;
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 500;
+}
+
+.clab-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.clab-import-button,
+.clab-save-button {
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 9px;
+  background: #0864e8;
+  color: #ffffff;
+  box-shadow: 0 9px 22px rgba(8, 100, 232, 0.18);
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 750;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.clab-import-button svg {
+  width: 21px;
+  height: 21px;
+}
+
+.clab-import-button:hover,
+.clab-save-button:hover:not(:disabled) {
+  background: #0759ce;
+  transform: translateY(-1px);
+}
+
+.clab-save-button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+/* Summary */
+
+.clab-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.clab-summary-card {
+  min-height: 132px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 24px 28px;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(7, 31, 73, 0.04);
+}
+
+.clab-summary-icon {
+  width: 70px;
+  height: 70px;
+  flex: 0 0 70px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.clab-summary-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.clab-summary-icon.blue {
+  background: #eaf2ff;
+  color: #0864e8;
+}
+
+.clab-summary-icon.cyan {
+  background: #e7f8fc;
+  color: #149ed5;
+}
+
+.clab-summary-icon.violet {
+  background: #f1edff;
+  color: #6741d9;
+}
+
+.clab-summary-card > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.clab-summary-card > div > span {
+  color: #61718b;
+  font-size: calc(13px * var(--app-font-scale, 1));
+  font-weight: 650;
+}
+
+.clab-summary-card strong {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  color: #071f49;
+  font-size: calc(30px * var(--app-font-scale, 1));
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.clab-summary-card strong small {
+  color: #455977;
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 650;
+}
+
+.clab-summary-card strong.date-value {
+  overflow: hidden;
+  font-size: calc(20px * var(--app-font-scale, 1));
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Module cards */
+
+.clab-module-section {
+  margin-bottom: 28px;
+}
+
+.clab-module-section > h2 {
+  margin: 0 0 14px;
+  color: #0a2149;
+  font-size: calc(20px * var(--app-font-scale, 1));
+  font-weight: 800;
+}
+
+.clab-module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+
+.clab-module-card {
+  min-height: 124px;
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #0b2149;
+  box-shadow: 0 5px 16px rgba(7, 31, 73, 0.035);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.clab-module-card:hover:not(:disabled) {
+  border-color: #9fc2f8;
+  box-shadow: 0 10px 24px rgba(8, 100, 232, 0.1);
+  transform: translateY(-2px);
+}
+
+.clab-module-card:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.clab-module-icon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #eef5ff;
+  color: #0864e8;
+}
+
+.clab-module-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.clab-module-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.clab-module-copy strong {
+  overflow: hidden;
+  color: #0b2149;
+  font-size: calc(16px * var(--app-font-scale, 1));
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-module-copy small {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #7888a0;
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 550;
+}
+
+.clab-module-copy i {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #8996aa;
+}
+
+.clab-module-copy i.blue {
+  background: #0864e8;
+}
+
+.clab-module-copy i.green {
+  background: #13a17b;
+}
+
+.clab-module-copy i.orange {
+  background: #f59e0b;
+}
+
+.clab-module-copy i.gray {
+  background: #8996aa;
+}
+
+.clab-module-arrow {
+  color: #355273;
+}
+
+.clab-module-arrow svg {
+  width: 22px;
+  height: 22px;
+}
+
+.clab-module-card:disabled .clab-module-arrow {
+  opacity: 0.35;
+}
+
+/* Uploaded sheet controls */
+
+.clab-sheet-card,
+.clab-detect-card,
+.clab-toolbar,
+.clab-main-card,
+.clab-welcome-card {
+  border-color: #dce4ef;
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(7, 31, 73, 0.04);
+}
+
+.clab-welcome-card {
+  min-height: 170px;
+  margin-bottom: 24px;
+}
+
+/* Saved data table */
+
+.clab-saved-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  align-items: stretch;
+  gap: 24px;
+}
+
+.clab-saved-section {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(7, 31, 73, 0.04);
+}
+
+.clab-saved-heading {
+  min-height: 72px;
+  margin: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e3e9f1;
+}
+
+.clab-saved-heading h2 {
+  color: #0b2149;
+  font-size: calc(18px * var(--app-font-scale, 1));
+}
+
+.clab-saved-heading p {
+  margin-top: 5px;
+  color: #7a899f;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-saved-heading > span {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #eef5ff;
+  color: #0864e8;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-saved-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.clab-saved-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+}
+
+.clab-saved-table th,
+.clab-saved-table td {
+  padding: 13px 16px;
+  border-bottom: 1px solid #e8edf3;
+  color: #304561;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  text-align: left;
+  vertical-align: middle;
+}
+
+.clab-saved-table th {
+  background: #fbfcfe;
+  color: #75859c;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.clab-saved-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.clab-saved-table tbody tr:hover td {
+  background: #fbfdff;
+}
+
+.clab-table-category,
+.clab-file-cell,
+.clab-progress-cell,
+.clab-row-actions {
+  display: flex;
+  align-items: center;
+}
+
+.clab-table-category {
+  gap: 10px;
+}
+
+.clab-table-category > span {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #eef5ff;
+  color: #0864e8;
+}
+
+.clab-table-category svg {
+  width: 20px;
+  height: 20px;
+}
+
+.clab-table-category strong {
+  color: #17345e;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-file-cell {
+  max-width: 190px;
+  gap: 8px;
+  color: #0864e8;
+}
+
+.clab-file-cell svg {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+}
+
+.clab-file-cell span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-progress-cell {
+  min-width: 120px;
+  gap: 10px;
+}
+
+.clab-progress-cell > span {
+  width: 82px;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e6edf6;
+}
+
+.clab-progress-cell i {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: #0864e8;
+}
+
+.clab-progress-cell b {
+  color: #0c234c;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-row-actions {
+  gap: 7px;
+}
+
+.clab-row-actions button,
+.clab-empty-upload {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 13px;
+  border-radius: 7px;
+  background: #ffffff;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.clab-row-actions .view,
+.clab-empty-upload {
+  border: 1px solid #0864e8;
+  color: #0864e8;
+}
+
+.clab-row-actions .edit {
+  border: 1px solid #d7e0eb;
+  color: #52657f;
+}
+
+.clab-row-actions button:hover,
+.clab-empty-upload:hover {
+  background: #eef5ff;
+}
+
+.clab-saved-table .clab-saved-empty {
+  height: 110px;
+  color: #7c8ba0;
+  text-align: center;
+}
+
+.clab-empty-panel {
+  min-height: 286px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 26px 24px;
+  border: 1px dashed #cbd7e6;
+  border-radius: 14px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.clab-empty-icon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: #eef5ff;
+  color: #0864e8;
+}
+
+.clab-empty-icon svg {
+  width: 34px;
+  height: 34px;
+}
+
+.clab-empty-panel h3 {
+  margin: 0;
+  color: #10284f;
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 750;
+}
+
+.clab-empty-panel p {
+  max-width: 220px;
+  margin: 10px 0 20px;
+  color: #7888a0;
+  font-size: calc(11px * var(--app-font-scale, 1));
+  line-height: 1.65;
+}
+
+@media (max-width: 1180px) {
+  .clab-summary-grid,
+  .clab-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .clab-summary-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .clab-saved-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .clab-empty-panel {
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 720px) {
   .clab-page {
-    padding: 20px 14px 40px;
+    padding: 24px 16px 36px;
   }
 
-  .clab-title {
-    font-size: 34px;
+  .clab-heading {
+    align-items: stretch;
+    flex-direction: column;
   }
 
-  .clab-tabs button {
-    width: 48px;
-    height: 27px;
-    font-size: 8px;
+  .clab-heading-actions,
+  .clab-import-button,
+  .clab-save-button {
+    width: 100%;
+  }
+
+  .clab-summary-grid,
+  .clab-module-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clab-summary-card:last-child {
+    grid-column: auto;
+  }
+
+  .clab-summary-card {
+    min-height: 112px;
+    padding: 20px;
+  }
+
+  .clab-summary-icon {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+  }
+
+  .clab-summary-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .clab-module-card {
+    min-height: 106px;
+    grid-template-columns: 56px minmax(0, 1fr) 20px;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .clab-module-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .clab-module-icon svg {
+    width: 32px;
+    height: 32px;
   }
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.clab-page {
+  min-height: calc(100vh - 124px);
+  padding: 34px 30px 54px;
+
+  background: #f5f7fb;
+  color: #13233f;
+}
+
+.clab-container {
+  width: min(1450px, 100%);
+  margin: 0 auto;
+}
+
+/* ==============================
+   HEADER
+================================ */
+
+.clab-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 24px;
+}
+
+.clab-heading h1 {
+  margin: 0;
+
+  color: #09275b;
+
+  font-size: calc(36px * var(--app-font-scale, 1));
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+.clab-subtitle {
+  margin: 5px 0 0;
+
+  color: #1768e6;
+
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-description {
+  margin: 6px 0 0;
+
+  color: #77849a;
+
+  font-size: calc(13px * var(--app-font-scale, 1));
+}
+
+.clab-import-button {
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 18px;
+
+  border-radius: 8px;
+
+  background: #1768e6;
+  color: #ffffff;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.clab-import-button:hover {
+  background: #1159c8;
+
+  transform: translateY(-1px);
+}
+
+/* ==============================
+   SHEET SELECTOR
+================================ */
+
+.clab-sheet-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-bottom: 18px;
+  padding: 16px 18px;
+
+  border: 1px solid #dce5f0;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow: 0 4px 14px rgba(18, 44, 85, 0.04);
+}
+
+.clab-sheet-file {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.clab-sheet-file span {
+  color: #8490a3;
+
+  font-size: calc(9px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.clab-sheet-file strong {
+  max-width: 420px;
+
+  overflow: hidden;
+
+  color: #183052;
+
+  font-size: calc(13px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-sheet-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.clab-sheet-select {
+  width: 300px;
+  height: 40px;
+
+  padding: 0 12px;
+
+  border: 1px solid #d7e0ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #263a58;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.clab-sheet-select:focus {
+  border-color: #1768e6;
+
+  box-shadow: 0 0 0 3px rgba(23, 104, 230, 0.08);
+}
+
+.clab-load-sheet-button {
+  height: 40px;
+
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #1768e6;
+  color: #ffffff;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.clab-load-sheet-button:hover:not(:disabled) {
+  background: #1159c8;
+}
+
+.clab-load-sheet-button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+/* ==============================
+   BEFORE SELECT SHEET
+================================ */
+
+.clab-welcome-card {
+  min-height: 340px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 35px;
+
+  border: 1px solid #e1e7ef;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow: 0 7px 22px rgba(18, 44, 85, 0.05);
+
+  text-align: center;
+}
+
+.clab-welcome-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  border-radius: 14px;
+
+  background: #edf4ff;
+  color: #1768e6;
+
+  font-size: calc(24px * var(--app-font-scale, 1));
+}
+
+.clab-welcome-card h2 {
+  margin: 0;
+
+  color: #1c3558;
+
+  font-size: calc(18px * var(--app-font-scale, 1));
+}
+
+.clab-welcome-card p {
+  max-width: 560px;
+
+  margin: 10px 0 0;
+
+  color: #7d899b;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+  line-height: 1.7;
+}
+
+/* ==============================
+   TOOLBAR
+================================ */
+
+.clab-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-bottom: 18px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow: 0 4px 14px rgba(18, 44, 85, 0.03);
+}
+
+.clab-search {
+  width: min(500px, 100%);
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0 12px;
+
+  border: 1px solid #d9e1ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  transition: 0.2s;
+}
+
+.clab-search:focus-within {
+  border-color: #1768e6;
+
+  box-shadow: 0 0 0 3px rgba(23, 104, 230, 0.07);
+}
+
+.clab-search span {
+  color: #7c899d;
+
+  font-size: calc(15px * var(--app-font-scale, 1));
+}
+
+.clab-search input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: #253954;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+}
+
+.clab-total {
+  color: #748197;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* ==============================
+   TOOLBAR RIGHT
+================================ */
+
+.clab-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ==============================
+   COLUMN PICKER
+================================ */
+
+.clab-column-picker-wrapper {
+  position: relative;
+}
+
+.clab-column-button {
+  height: 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 0 15px;
+
+  border: 1px solid #d7e0ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #263a58;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.clab-column-button:hover {
+  border-color: #1768e6;
+
+  background: #f3f7ff;
+  color: #1768e6;
+}
+
+/* dropdown */
+
+.clab-column-menu {
+  width: 330px;
+  max-height: 450px;
+
+  position: absolute;
+  z-index: 100;
+
+  top: calc(100% + 8px);
+  right: 0;
+
+  overflow: hidden;
+
+  border: 1px solid #dce4ef;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 15px 40px rgba(20, 45, 85, 0.16);
+}
+
+.clab-column-menu-header {
+  min-height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 14px;
+
+  border-bottom: 1px solid #edf0f4;
+}
+
+.clab-column-menu-header strong {
+  color: #183052;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-column-menu-header button {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #77859a;
+
+  font-size: calc(18px * var(--app-font-scale, 1));
+
+  cursor: pointer;
+}
+
+.clab-column-menu-header button:hover {
+  background: #f2f5f9;
+
+  color: #203653;
+}
+
+/* Select all / clear */
+
+.clab-column-actions {
+  display: flex;
+  gap: 8px;
+
+  padding: 10px 12px;
+
+  border-bottom: 1px solid #edf0f4;
+
+  background: #fafcff;
+}
+
+.clab-column-actions button {
+  flex: 1;
+
+  min-height: 32px;
+
+  border: 1px solid #dce4ef;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #52647e;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.clab-column-actions button:hover {
+  border-color: #1768e6;
+
+  background: #f3f7ff;
+  color: #1768e6;
+}
+
+/* checkbox list */
+
+.clab-column-list {
+  max-height: 320px;
+
+  overflow-y: auto;
+
+  padding: 7px;
+}
+
+.clab-column-option {
+  min-height: 38px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 7px 9px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  transition: 0.15s;
+}
+
+.clab-column-option:hover {
+  background: #f5f8fd;
+}
+
+.clab-column-option input {
+  width: 15px;
+  height: 15px;
+
+  flex-shrink: 0;
+
+  accent-color: #1768e6;
+
+  cursor: pointer;
+}
+
+.clab-column-option span {
+  overflow: hidden;
+
+  color: #42536c;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* scrollbar */
+
+.clab-column-list::-webkit-scrollbar {
+  width: 7px;
+}
+
+.clab-column-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.clab-column-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background: #d7dfeb;
+}
+
+/* ==============================
+   MAIN CARD
+================================ */
+
+.clab-main-card {
+  overflow: hidden;
+
+  margin-bottom: 18px;
+
+  border: 1px solid #e1e7ef;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow: 0 7px 22px rgba(18, 44, 85, 0.05);
+}
+
+.clab-card-header {
+  min-height: 78px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 18px 22px;
+
+  border-bottom: 1px solid #e8edf3;
+}
+
+.clab-card-header h2 {
+  margin: 0;
+
+  color: #11294f;
+
+  font-size: calc(19px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-card-header p {
+  margin: 5px 0 0;
+
+  color: #7b8799;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+}
+
+/* ==============================
+   TABLE
+================================ */
+
+.clab-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+.clab-table {
+  width: 100%;
+
+  min-width: 1150px;
+
+  border-collapse: collapse;
+}
+
+.clab-table thead {
+  background: #f7f9fc;
+}
+
+.clab-table th {
+  padding: 13px 14px;
+
+  border-bottom: 1px solid #e6ebf2;
+
+  color: #66748a;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 750;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+.clab-table td {
+  padding: 14px;
+
+  border-bottom: 1px solid #edf0f4;
+
+  color: #334157;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+
+  vertical-align: middle;
+}
+
+.clab-table tbody tr {
+  transition: 0.15s;
+}
+
+.clab-table tbody tr:hover {
+  background: #fafcff;
+}
+
+.clab-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.clab-empty {
+  height: 220px;
+
+  color: #8490a2;
+
+  text-align: center;
+}
+
+/* ==============================
+   NO COLUMN
+================================ */
+
+.clab-no-columns {
+  min-height: 230px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  color: #8490a2;
+
+  font-size: calc(12px * var(--app-font-scale, 1));
+
+  text-align: center;
+}
+
+/* ==============================
+   GENERIC SHEET
+================================ */
+
+.clab-generic-table {
+  min-width: max-content;
+}
+
+.clab-generic-table th {
+  max-width: 280px;
+
+  white-space: normal;
+}
+
+.clab-generic-table td {
+  max-width: 320px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ==============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1050px) {
+}
+
+@media (max-width: 850px) {
+  .clab-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-search {
+    width: 100%;
+  }
+
+  .clab-toolbar-right {
+    width: 100%;
+
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 750px) {
+  .clab-page {
+    padding: 26px 16px 42px;
+  }
+
+  .clab-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-heading h1 {
+    font-size: calc(30px * var(--app-font-scale, 1));
+  }
+
+  .clab-import-button {
+    width: fit-content;
+  }
+
+  .clab-sheet-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-sheet-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-sheet-select,
+  .clab-load-sheet-button {
+    width: 100%;
+  }
+
+  .clab-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .clab-toolbar-right {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-column-picker-wrapper {
+    width: 100%;
+  }
+
+  .clab-column-button {
+    width: 100%;
+  }
+
+  .clab-column-menu {
+    width: 100%;
+
+    position: static;
+
+    margin-top: 8px;
+  }
+
+  .clab-total {
+    text-align: right;
+  }
+}
+
+/* ==============================
+   CLAB SNAPSHOT / AUTO DETECT
+================================ */
+
+.clab-heading-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.clab-save-button {
+  min-height: 42px;
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: #14864b;
+  color: #ffffff;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.clab-save-button:hover:not(:disabled) {
+  background: #10713f;
+}
+
+.clab-save-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.clab-snapshot-badge {
+  min-height: 42px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 7px 12px;
+
+  border: 1px solid #dce5f0;
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+.clab-snapshot-badge span {
+  color: #8490a3;
+  font-size: calc(8px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-snapshot-badge strong {
+  margin-top: 2px;
+
+  color: #1d365b;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-message {
+  margin-bottom: 14px;
+  padding: 10px 13px;
+
+  border-radius: 8px;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-message.success {
+  border: 1px solid #bee3cd;
+  background: #eefaf3;
+  color: #147845;
+}
+
+.clab-message.error {
+  border: 1px solid #f0c3c3;
+  background: #fff2f2;
+  color: #b93333;
+}
+
+.clab-detect-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  margin-bottom: 14px;
+  padding: 12px 15px;
+
+  border: 1px solid #cfe0f6;
+  border-radius: 10px;
+
+  background: #f4f8ff;
+}
+
+.clab-detect-card div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.clab-detect-card span {
+  color: #718096;
+  font-size: calc(9px * var(--app-font-scale, 1));
+}
+
+.clab-detect-card strong {
+  color: #1768e6;
+  font-size: calc(12px * var(--app-font-scale, 1));
+}
+
+.clab-detect-card b {
+  color: #35516f;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+@media (max-width: 750px) {
+  .clab-heading-actions {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-import-button,
+  .clab-save-button,
+  .clab-snapshot-badge {
+    width: 100%;
+  }
+
+  .clab-detect-card,
+  .clab-detect-card div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* ==============================
+   CLAB SNAPSHOT / AUTO DETECT
+================================ */
+
+.clab-heading-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.clab-save-button {
+  min-height: 42px;
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: #14864b;
+  color: #ffffff;
+
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.clab-save-button:hover:not(:disabled) {
+  background: #10713f;
+}
+
+.clab-save-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.clab-snapshot-badge {
+  min-height: 42px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 7px 12px;
+
+  border: 1px solid #dce5f0;
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+.clab-snapshot-badge span {
+  color: #8490a3;
+  font-size: calc(8px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-snapshot-badge strong {
+  margin-top: 2px;
+
+  color: #1d365b;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-message {
+  margin-bottom: 14px;
+  padding: 10px 13px;
+
+  border-radius: 8px;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-message.success {
+  border: 1px solid #bee3cd;
+  background: #eefaf3;
+  color: #147845;
+}
+
+.clab-message.error {
+  border: 1px solid #f0c3c3;
+  background: #fff2f2;
+  color: #b93333;
+}
+
+.clab-detect-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  margin-bottom: 14px;
+  padding: 12px 15px;
+
+  border: 1px solid #cfe0f6;
+  border-radius: 10px;
+
+  background: #f4f8ff;
+}
+
+.clab-detect-card div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.clab-detect-card span {
+  color: #718096;
+  font-size: calc(9px * var(--app-font-scale, 1));
+}
+
+.clab-detect-card strong {
+  color: #1768e6;
+  font-size: calc(12px * var(--app-font-scale, 1));
+}
+
+.clab-detect-card b {
+  color: #35516f;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+@media (max-width: 750px) {
+  .clab-heading-actions {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-import-button,
+  .clab-save-button,
+  .clab-snapshot-badge {
+    width: 100%;
+  }
+
+  .clab-detect-card,
+  .clab-detect-card div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
+/* ==============================
+   CLAB SAVED ITEMS
+================================ */
+
+.clab-saved-section {
+  margin-top: 24px;
+  padding: 18px;
+
+  border: 1px solid #dfe6ef;
+  border-radius: 14px;
+
+  background: #ffffff;
+  box-shadow: 0 7px 22px rgba(18, 44, 85, 0.05);
+}
+
+.clab-saved-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 14px;
+}
+
+.clab-saved-heading h2 {
+  margin: 0;
+  color: #11294f;
+  font-size: calc(18px * var(--app-font-scale, 1));
+}
+
+.clab-saved-heading p {
+  margin: 5px 0 0;
+  color: #7b8799;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-saved-heading > span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #edf4ff;
+  color: #1768e6;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 750;
+}
+
+.clab-saved-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(250px, 1fr)
+    );
+  gap: 12px;
+}
+
+.clab-saved-card {
+  padding: 15px;
+
+  border: 1px solid #e0e6ee;
+  border-radius: 11px;
+
+  background: #fafcff;
+}
+
+.clab-saved-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.clab-saved-card-top span {
+  color: #1768e6;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 800;
+}
+
+.clab-saved-card-top b {
+  color: #6c7d94;
+  font-size: calc(9px * var(--app-font-scale, 1));
+}
+
+.clab-saved-card h3 {
+  margin: 9px 0 5px;
+  color: #1b3559;
+  font-size: calc(13px * var(--app-font-scale, 1));
+}
+
+.clab-saved-card p {
+  margin: 0;
+  overflow: hidden;
+
+  color: #6e7c90;
+  font-size: calc(9px * var(--app-font-scale, 1));
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-saved-card small {
+  display: block;
+  margin-top: 7px;
+
+  color: #8a96a7;
+  font-size: calc(8px * var(--app-font-scale, 1));
+}
+
+.clab-saved-actions {
+  display: flex;
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+.clab-saved-actions button {
+  min-height: 34px;
+  flex: 1;
+
+  border-radius: 7px;
+
+  font-size: calc(9px * var(--app-font-scale, 1));
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.clab-saved-actions .view {
+  border: 1px solid #c9daf5;
+  background: #eef5ff;
+  color: #1768e6;
+}
+
+.clab-saved-actions .edit {
+  border: 1px solid #d7e0eb;
+  background: #ffffff;
+  color: #40536f;
+}
+
+.clab-saved-empty {
+  padding: 36px;
+
+  color: #8a96a7;
+  text-align: center;
+  font-size: calc(11px * var(--app-font-scale, 1));
+}
+
+/* ==============================
+   CONFIRM / EDIT MODAL
+================================ */
+
+.clab-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(8, 24, 47, 0.48);
+}
+
+.clab-confirm-modal,
+.clab-edit-modal {
+  width: min(720px, 96vw);
+  max-height: 90vh;
+
+  overflow: hidden;
+
+  border-radius: 14px;
+  background: #ffffff;
+
+  box-shadow:
+    0 24px 70px
+    rgba(8, 29, 61, 0.24);
+}
+
+.clab-edit-modal {
+  width: min(1400px, 97vw);
+}
+
+.clab-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+
+  padding: 18px 20px;
+
+  border-bottom: 1px solid #e7ecf2;
+}
+
+.clab-modal-header span {
+  color: #7b8799;
+  font-size: calc(9px * var(--app-font-scale, 1));
+  font-weight: 700;
+}
+
+.clab-modal-header h2 {
+  margin: 4px 0 0;
+
+  color: #11294f;
+  font-size: calc(18px * var(--app-font-scale, 1));
+}
+
+.clab-modal-header > button {
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid #d8e0ea;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #40536f;
+
+  font-size: calc(18px * var(--app-font-scale, 1));
+  cursor: pointer;
+}
+
+.clab-confirm-summary {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 10px;
+
+  padding: 18px 20px 8px;
+}
+
+.clab-confirm-summary > div {
+  padding: 12px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+
+  background: #f8fafc;
+}
+
+.clab-confirm-summary span {
+  display: block;
+
+  color: #8290a5;
+  font-size: calc(8px * var(--app-font-scale, 1));
+}
+
+.clab-confirm-summary strong {
+  display: block;
+  margin-top: 5px;
+
+  color: #1c3558;
+  font-size: calc(11px * var(--app-font-scale, 1));
+}
+
+.clab-confirm-note {
+  margin: 10px 20px 0;
+  padding: 11px 12px;
+
+  border-radius: 8px;
+
+  background: #fff8e7;
+  color: #8a6410;
+
+  font-size: calc(9px * var(--app-font-scale, 1));
+  line-height: 1.6;
+}
+
+.clab-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+
+  padding: 14px 20px 18px;
+
+  border-top: 1px solid #e8edf3;
+}
+
+.clab-modal-actions button {
+  min-height: 38px;
+  padding: 0 15px;
+
+  border-radius: 8px;
+
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.clab-modal-actions .cancel {
+  border: 1px solid #d7e0eb;
+  background: #ffffff;
+  color: #52657f;
+}
+
+.clab-modal-actions .confirm {
+  border: 0;
+  background: #1768e6;
+  color: #ffffff;
+}
+
+.clab-modal-actions .confirm:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.clab-edit-table-wrapper {
+  max-height: calc(90vh - 145px);
+  overflow: auto;
+}
+
+.clab-edit-table {
+  min-width: max-content;
+
+  border-collapse: collapse;
+}
+
+.clab-edit-table td {
+  min-width: 150px;
+  padding: 4px;
+
+  border: 1px solid #e3e8ef;
+}
+
+.clab-edit-table input {
+  width: 100%;
+  min-height: 34px;
+
+  padding: 0 8px;
+
+  border: 1px solid #d7e0eb;
+  border-radius: 6px;
+
+  color: #31445f;
+  font-size: calc(9px * var(--app-font-scale, 1));
+}
+
+.clab-edit-table input:focus {
+  border-color: #1768e6;
+  outline: none;
+}
+
+@media (max-width: 700px) {
+  .clab-confirm-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .clab-saved-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* =========================================================
+   CLAB DASHBOARD REDESIGN
+   วางไว้ท้ายไฟล์เพื่อให้หน้าหลักใช้หน้าตาตาม Mockup ใหม่
+========================================================= */
+
+.clab-page {
+  min-height: calc(100vh - 92px);
+  padding: 34px clamp(22px, 3vw, 54px) 48px;
+  background: #f7f9fc;
+  color: #0b2149;
+}
+
+.clab-container {
+  width: min(1500px, 100%);
+  margin: 0 auto;
+}
+
+.clab-heading {
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.clab-heading h1 {
+  color: #071f49;
+  font-size: clamp(36px, 3.2vw, 50px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+}
+
+.clab-heading .clab-description {
+  margin-top: 7px;
+  color: #6b7c96;
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 500;
+}
+
+.clab-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.clab-import-button,
+.clab-save-button {
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 9px;
+  background: #0864e8;
+  color: #ffffff;
+  box-shadow: 0 9px 22px rgba(8, 100, 232, 0.18);
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 750;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.clab-import-button svg {
+  width: 21px;
+  height: 21px;
+}
+
+.clab-import-button:hover,
+.clab-save-button:hover:not(:disabled) {
+  background: #0759ce;
+  transform: translateY(-1px);
+}
+
+.clab-save-button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+/* Summary */
+
+.clab-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.clab-summary-card {
+  min-height: 132px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 24px 28px;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(7, 31, 73, 0.04);
+}
+
+.clab-summary-icon {
+  width: 70px;
+  height: 70px;
+  flex: 0 0 70px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.clab-summary-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.clab-summary-icon.blue {
+  background: #eaf2ff;
+  color: #0864e8;
+}
+
+.clab-summary-icon.cyan {
+  background: #e7f8fc;
+  color: #149ed5;
+}
+
+.clab-summary-icon.violet {
+  background: #f1edff;
+  color: #6741d9;
+}
+
+.clab-summary-card > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.clab-summary-card > div > span {
+  color: #61718b;
+  font-size: calc(13px * var(--app-font-scale, 1));
+  font-weight: 650;
+}
+
+.clab-summary-card strong {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  color: #071f49;
+  font-size: calc(30px * var(--app-font-scale, 1));
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.clab-summary-card strong small {
+  color: #455977;
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 650;
+}
+
+.clab-summary-card strong.date-value {
+  overflow: hidden;
+  font-size: calc(20px * var(--app-font-scale, 1));
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Module cards */
+
+.clab-module-section {
+  margin-bottom: 28px;
+}
+
+.clab-module-section > h2 {
+  margin: 0 0 14px;
+  color: #0a2149;
+  font-size: calc(20px * var(--app-font-scale, 1));
+  font-weight: 800;
+}
+
+.clab-module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+
+.clab-module-card {
+  min-height: 124px;
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #0b2149;
+  box-shadow: 0 5px 16px rgba(7, 31, 73, 0.035);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.clab-module-card:hover:not(:disabled) {
+  border-color: #9fc2f8;
+  box-shadow: 0 10px 24px rgba(8, 100, 232, 0.1);
+  transform: translateY(-2px);
+}
+
+.clab-module-card:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.clab-module-icon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #eef5ff;
+  color: #0864e8;
+}
+
+.clab-module-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.clab-module-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.clab-module-copy strong {
+  overflow: hidden;
+  color: #0b2149;
+  font-size: calc(16px * var(--app-font-scale, 1));
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-module-copy small {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #7888a0;
+  font-size: calc(11px * var(--app-font-scale, 1));
+  font-weight: 550;
+}
+
+.clab-module-copy i {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #8996aa;
+}
+
+.clab-module-copy i.blue {
+  background: #0864e8;
+}
+
+.clab-module-copy i.green {
+  background: #13a17b;
+}
+
+.clab-module-copy i.orange {
+  background: #f59e0b;
+}
+
+.clab-module-copy i.gray {
+  background: #8996aa;
+}
+
+.clab-module-arrow {
+  color: #355273;
+}
+
+.clab-module-arrow svg {
+  width: 22px;
+  height: 22px;
+}
+
+.clab-module-card:disabled .clab-module-arrow {
+  opacity: 0.35;
+}
+
+/* Uploaded sheet controls */
+
+.clab-sheet-card,
+.clab-detect-card,
+.clab-toolbar,
+.clab-main-card,
+.clab-welcome-card {
+  border-color: #dce4ef;
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(7, 31, 73, 0.04);
+}
+
+.clab-welcome-card {
+  min-height: 170px;
+  margin-bottom: 24px;
+}
+
+/* Saved data table */
+
+.clab-saved-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  align-items: stretch;
+  gap: 24px;
+}
+
+.clab-saved-section {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(7, 31, 73, 0.04);
+}
+
+.clab-saved-heading {
+  min-height: 72px;
+  margin: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e3e9f1;
+}
+
+.clab-saved-heading h2 {
+  color: #0b2149;
+  font-size: calc(18px * var(--app-font-scale, 1));
+}
+
+.clab-saved-heading p {
+  margin-top: 5px;
+  color: #7a899f;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-saved-heading > span {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #eef5ff;
+  color: #0864e8;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-saved-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.clab-saved-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+}
+
+.clab-saved-table th,
+.clab-saved-table td {
+  padding: 13px 16px;
+  border-bottom: 1px solid #e8edf3;
+  color: #304561;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  text-align: left;
+  vertical-align: middle;
+}
+
+.clab-saved-table th {
+  background: #fbfcfe;
+  color: #75859c;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.clab-saved-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.clab-saved-table tbody tr:hover td {
+  background: #fbfdff;
+}
+
+.clab-table-category,
+.clab-file-cell,
+.clab-progress-cell,
+.clab-row-actions {
+  display: flex;
+  align-items: center;
+}
+
+.clab-table-category {
+  gap: 10px;
+}
+
+.clab-table-category > span {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #eef5ff;
+  color: #0864e8;
+}
+
+.clab-table-category svg {
+  width: 20px;
+  height: 20px;
+}
+
+.clab-table-category strong {
+  color: #17345e;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-file-cell {
+  max-width: 190px;
+  gap: 8px;
+  color: #0864e8;
+}
+
+.clab-file-cell svg {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+}
+
+.clab-file-cell span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-progress-cell {
+  min-width: 120px;
+  gap: 10px;
+}
+
+.clab-progress-cell > span {
+  width: 82px;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e6edf6;
+}
+
+.clab-progress-cell i {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: #0864e8;
+}
+
+.clab-progress-cell b {
+  color: #0c234c;
+  font-size: calc(10px * var(--app-font-scale, 1));
+}
+
+.clab-row-actions {
+  gap: 7px;
+}
+
+.clab-row-actions button,
+.clab-empty-upload {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 13px;
+  border-radius: 7px;
+  background: #ffffff;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.clab-row-actions .view,
+.clab-empty-upload {
+  border: 1px solid #0864e8;
+  color: #0864e8;
+}
+
+.clab-row-actions .edit {
+  border: 1px solid #d7e0eb;
+  color: #52657f;
+}
+
+.clab-row-actions button:hover,
+.clab-empty-upload:hover {
+  background: #eef5ff;
+}
+
+.clab-saved-table .clab-saved-empty {
+  height: 110px;
+  color: #7c8ba0;
+  text-align: center;
+}
+
+.clab-empty-panel {
+  min-height: 286px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 26px 24px;
+  border: 1px dashed #cbd7e6;
+  border-radius: 14px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.clab-empty-icon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: #eef5ff;
+  color: #0864e8;
+}
+
+.clab-empty-icon svg {
+  width: 34px;
+  height: 34px;
+}
+
+.clab-empty-panel h3 {
+  margin: 0;
+  color: #10284f;
+  font-size: calc(14px * var(--app-font-scale, 1));
+  font-weight: 750;
+}
+
+.clab-empty-panel p {
+  max-width: 220px;
+  margin: 10px 0 20px;
+  color: #7888a0;
+  font-size: calc(11px * var(--app-font-scale, 1));
+  line-height: 1.65;
+}
+
+@media (max-width: 1180px) {
+  .clab-summary-grid,
+  .clab-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .clab-summary-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .clab-saved-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .clab-empty-panel {
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 720px) {
+  .clab-page {
+    padding: 24px 16px 36px;
+  }
+
+  .clab-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .clab-heading-actions,
+  .clab-import-button,
+  .clab-save-button {
+    width: 100%;
+  }
+
+  .clab-summary-grid,
+  .clab-module-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clab-summary-card:last-child {
+    grid-column: auto;
+  }
+
+  .clab-summary-card {
+    min-height: 112px;
+    padding: 20px;
+  }
+
+  .clab-summary-icon {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+  }
+
+  .clab-summary-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .clab-module-card {
+    min-height: 106px;
+    grid-template-columns: 56px minmax(0, 1fr) 20px;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .clab-module-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .clab-module-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* =========================================================
+   SAVED DATA ON TOP
+   จัดส่วนข้อมูลที่บันทึกไว้ให้อยู่ด้านบนและมีสัดส่วนสมดุล
+========================================================= */
+
+.clab-saved-section-top {
+  margin: 0 0 18px;
+  padding: 18px;
+  overflow: visible;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(7, 31, 73, 0.045);
+}
+
+.clab-saved-section-top .clab-saved-heading {
+  min-height: auto;
+  margin: 0 0 14px;
+  padding: 0 0 13px;
+  border-bottom: 1px solid #e6ebf2;
+}
+
+.clab-saved-section-top .clab-saved-heading h2 {
+  margin: 0;
+  color: #0b2149;
+  font-size: calc(17px * var(--app-font-scale, 1));
+  font-weight: 800;
+}
+
+.clab-saved-section-top .clab-saved-heading p {
+  margin: 4px 0 0;
+  color: #7888a0;
+  font-size: calc(11px * var(--app-font-scale, 1));
+  line-height: 1.5;
+}
+
+.clab-saved-section-top .clab-saved-heading > span {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #edf4ff;
+  color: #0864e8;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 750;
+}
+
+.clab-saved-section-top .clab-saved-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.clab-saved-section-top .clab-saved-card {
+  min-width: 0;
+  min-height: 156px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid #dfe7f1;
+  border-radius: 11px;
+  background: #fbfdff;
+  box-shadow: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.clab-saved-section-top .clab-saved-card:hover {
+  border-color: #a9c8f5;
+  box-shadow: 0 8px 18px rgba(8, 100, 232, 0.08);
+  transform: translateY(-1px);
+}
+
+.clab-saved-section-top .clab-saved-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.clab-saved-section-top .clab-saved-card-top span {
+  overflow: hidden;
+  color: #0864e8;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-saved-section-top .clab-saved-card-top b {
+  flex: 0 0 auto;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #eaf2ff;
+  color: #0864e8;
+  font-size: calc(9px * var(--app-font-scale, 1));
+}
+
+.clab-saved-section-top .clab-saved-card h3 {
+  overflow: hidden;
+  margin: 9px 0 4px;
+  color: #10284f;
+  font-size: calc(13px * var(--app-font-scale, 1));
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-saved-section-top .clab-saved-card p {
+  overflow: hidden;
+  margin: 0;
+  color: #63748d;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clab-saved-section-top .clab-saved-card small {
+  display: block;
+  margin-top: 6px;
+  color: #8794a8;
+  font-size: calc(9px * var(--app-font-scale, 1));
+  line-height: 1.45;
+}
+
+.clab-saved-section-top .clab-saved-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 11px;
+}
+
+.clab-saved-section-top .clab-saved-actions button {
+  width: 100%;
+  min-height: 32px;
+  border-radius: 7px;
+  font-size: calc(10px * var(--app-font-scale, 1));
+  font-weight: 750;
+}
+
+.clab-saved-section-top .clab-saved-actions button:only-child {
+  grid-column: 1 / -1;
+}
+
+.clab-saved-section-top .clab-saved-actions .view {
+  border: 1px solid #0864e8;
+  background: #0864e8;
+  color: #ffffff;
+}
+
+.clab-saved-section-top .clab-saved-actions .view:hover {
+  background: #0759ce;
+}
+
+.clab-saved-section-top .clab-saved-actions .edit {
+  border: 1px solid #cdd8e7;
+  background: #ffffff;
+  color: #435873;
+}
+
+.clab-saved-section-top .clab-saved-actions .edit:hover {
+  border-color: #9db9de;
+  background: #f3f7fc;
+}
+
+.clab-saved-section-top .clab-saved-empty {
+  min-height: 94px;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  border: 1px dashed #ced9e7;
+  border-radius: 10px;
+  background: #f9fbfe;
+  color: #7c8ba0;
+  font-size: calc(11px * var(--app-font-scale, 1));
+  text-align: center;
+}
+
+.clab-saved-section-top + .clab-sheet-card,
+.clab-saved-section-top + .clab-welcome-card {
+  margin-top: 0;
+}
+
+@media (max-width: 1050px) {
+  .clab-saved-section-top .clab-saved-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .clab-saved-section-top {
+    padding: 14px;
+  }
+
+  .clab-saved-section-top .clab-saved-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .clab-saved-section-top .clab-saved-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clab-saved-section-top .clab-saved-card {
+    min-height: 150px;
+  }
+}
+

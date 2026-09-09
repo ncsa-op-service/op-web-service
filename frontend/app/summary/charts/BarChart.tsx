@@ -1,28 +1,51 @@
 import "./BarChart.css";
 
-export default function BarChart() {
+type ChartItem = {
+  label: string;
+  value: number;
+};
+
+type BarChartProps = {
+  data: ChartItem[];
+};
+
+export default function BarChart({
+  data,
+}: BarChartProps) {
+  const maxValue = Math.max(
+    ...data.map((item) => item.value),
+    1
+  );
+
   return (
     <div className="bar-chart-wrapper">
       <div className="bar-chart-area">
-        <div className="bar-item">
-          <div className="bar bar-one"></div>
-          <span>Tool 1</span>
-        </div>
+        {data.map((item) => {
+          const height =
+            (item.value / maxValue) * 100;
 
-        <div className="bar-item">
-          <div className="bar bar-two"></div>
-          <span>Tool 2</span>
-        </div>
+          return (
+            <div
+              className="bar-item"
+              key={item.label}
+            >
+              <div className="bar-value">
+                {item.value}
+              </div>
 
-        <div className="bar-item">
-          <div className="bar bar-three"></div>
-          <span>Tool 3</span>
-        </div>
+              <div className="bar-track">
+                <div
+                  className="bar"
+                  style={{
+                    height: `${height}%`,
+                  }}
+                />
+              </div>
 
-        <div className="bar-item">
-          <div className="bar bar-four"></div>
-          <span>Tool 4</span>
-        </div>
+              <span>{item.label}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
