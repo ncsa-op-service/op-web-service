@@ -4,12 +4,15 @@ import { pool } from "./db.js";
 
 async function createSuperAdmin() {
   try {
-    const name = "Super Admin";
-const email = "superadmin@ncsa.com";
-const password = "***REMOVED***";
+    const name = process.env.SUPER_ADMIN_NAME;
+    const email = process.env.SUPER_ADMIN_EMAIL;
+    const password = process.env.SUPER_ADMIN_PASSWORD;
 
-    // Hash password ก่อนเก็บลง Database
-    const passwordHash = await bcrypt.hash(password, 12);
+    if (!name || !email || !password) {
+      throw new Error(
+        "กรุณากำหนด SUPER_ADMIN_NAME, SUPER_ADMIN_EMAIL และ SUPER_ADMIN_PASSWORD ใน .env"
+      );
+    }
 
     const existingUser = await pool.query(
       "SELECT id FROM users WHERE email = $1",
@@ -20,6 +23,8 @@ const password = "***REMOVED***";
       console.log("Super Admin นี้มีอยู่แล้ว");
       return;
     }
+
+    const passwordHash = await bcrypt.hash(password, 12);
 
     await pool.query(
       `
