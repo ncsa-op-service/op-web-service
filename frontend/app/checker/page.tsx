@@ -21,7 +21,8 @@ type ProviderKey =
 type ViewMode =
   | "original"
   | "checked"
-  | "line_similarity";
+  | "line_similarity"
+  | "line_compare";
 
 type UserInfo = {
   id: number;
@@ -92,6 +93,48 @@ type ApiCheckResponse = {
   results: ApiCheckResult[];
 };
 
+type LineReference = {
+  id: number;
+  url: string;
+  token: string;
+  verified_scan: boolean;
+  is_active: boolean;
+  note: string | null;
+  created_by?: number | null;
+  created_by_name?: string | null;
+  match_count?: number;
+  latest_detected_at?: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type LineReferenceMatch = {
+  result_id: number;
+  batch_id: number;
+  case_id: string;
+  source_provider: string;
+  line_url: string;
+  original_file_name: string | null;
+  detected_date: string | null;
+  detected_at: string;
+  batch_created_at: string;
+  selected_provider: string | null;
+  checked_by: number | null;
+  checked_by_name: string | null;
+  checked_by_email: string | null;
+};
+
+type LineReferenceHistoryResponse = {
+  reference: LineReference;
+  total: number;
+  matches: LineReferenceMatch[];
+};
+
+type LineReferencePart = LineReference & {
+  prefix: string;
+  suffix: string;
+};
+
 type LineSimilarityRow = {
   item: UrlItem;
   lineUrl: string;
@@ -102,79 +145,108 @@ type LineSimilarityRow = {
   prefix: string;
   suffix: string;
   matchedReference: number;
+  matchedReferenceId: number | null;
   matchedCount: number;
   comparedLength: number;
 };
 
-const OPEN_LINE_REFERENCE_URLS = [
-  "https://line.me/ti/p/uEh4NMpZuc",
-  "https://line.me/ti/p/zXfEZpWjGB",
-  "https://line.me/ti/p/-A_-pnuPY2",
-  "https://line.me/ti/p/WBH9eGmg_E",
-] as const;
+type LineCompareStatus =
+  | "same"
+  | "changed"
+  | "new"
+  | "missing";
 
-/*
-  จุดแบ่งที่ผู้ใช้ยืนยันจาก 4 ลิงก์ที่เปิดได้จริง
+type LineCompareRow = {
+  caseId: string;
+  previousUrls: string[];
+  currentUrls: string[];
+  status: LineCompareStatus;
+};
 
-  1) uEh4NMp | Zuc
-  2) zXfEZpW | jGB
-  3) -A_-pnu | PY2
-  4) WBH9eG  | mg_E
-*/
-const OPEN_LINE_REFERENCE_PARTS = [
-  {
-    prefix: "uEh4NMp",
-    suffix: "Zuc",
-    token: "uEh4NMpZuc",
-  },
-  {
-    prefix: "zXfEZpW",
-    suffix: "jGB",
-    token: "zXfEZpWjGB",
-  },
-  {
-    prefix: "-A_-pnu",
-    suffix: "PY2",
-    token: "-A_-pnuPY2",
-  },
-  {
-    prefix: "WBH9eG",
-    suffix: "mg_E",
-    token: "WBH9eGmg_E",
-  },
-] as const;
+type LineCompareResponse = {
+  currentDate: string;
+  previousDate: string;
+  currentBatchId: number | null;
+  previousBatchId: number | null;
+  summary: {
+    same: number;
+    changed: number;
+    new: number;
+    missing: number;
+    total: number;
+  };
+  rows: LineCompareRow[];
+};
+
+type ProviderCompareValue = {
+  status: LineCompareStatus;
+  previousUrl: string | null;
+  currentUrl: string | null;
+};
+
+type ProviderCompareRow = {
+  caseId: string;
+  urlSms: string;
+  providers: Record<ProviderKey, ProviderCompareValue>;
+  summary: string;
+};
+
+function getLineToken(rawUrl: string): string | null {
+  try {
+    const parsed = new URL(rawUrl.trim());
+    const host = parsed.hostname.toLowerCase();
+    const directMatch = parsed.pathname.match(
+      /^\/ti\/p\/([^/?#]+)\/?$/i
+    );
+
+    if (
+      parsed.protocol !== "https:" ||
+      !(host === "line.me" || host === "www.line.me") ||
+      !directMatch
+    ) {
+      return null;
+    }
+
+    const token = directMatch[1] ?? "";
+    if (!token || !/^[A-Za-z0-9_-]+$/.test(token)) {
+      return null;
+    }
+
+    return token;
+  } catch {
+    return null;
+  }
+}
+
+function buildReferencePart(reference: LineReference): LineReferencePart {
+  const token = reference.token;
+  const suffixLength = token.length >= 10 ? 3 : Math.max(1, Math.floor(token.length * 0.3));
+  const prefixLength = Math.max(1, token.length - suffixLength);
+
+  return {
+    ...reference,
+    prefix: token.slice(0, prefixLength),
+    suffix: token.slice(prefixLength),
+  };
+}
 
 function countExactPositionMatches(
   candidate: string,
   reference: string
 ) {
-  const compareLength =
-    Math.max(
-      candidate.length,
-      reference.length
-    );
-
+  const compareLength = Math.max(candidate.length, reference.length);
   let matchedCount = 0;
 
-  for (
-    let index = 0;
-    index < compareLength;
-    index += 1
-  ) {
+  for (let index = 0; index < compareLength; index += 1) {
     if (
       candidate[index] !== undefined &&
-      candidate[index] ===
-        reference[index]
+      candidate[index] === reference[index]
     ) {
       matchedCount += 1;
     }
   }
 
-  return {
-    matchedCount,
-    comparedLength:
-      compareLength,
-  };
+  return { matchedCount, comparedLength: compareLength };
 }
 
 function renderMatchedCharacters(
@@ -182,40 +254,33 @@ function renderMatchedCharacters(
   reference: string,
   offset = 0
 ) {
-  return value
-    .split("")
-    .map((char, index) => {
-      const referenceChar =
-        reference[
-          offset + index
-        ];
+  return value.split("").map((char, index) => {
+    const referenceChar = reference[offset + index];
+    const isMatch = referenceChar !== undefined && char === referenceChar;
 
-      const isMatch =
-        referenceChar !== undefined &&
-        char === referenceChar;
-
-      return (
-        <span
-          key={`${offset + index}-${char}`}
-          className={
-            isMatch
-              ? "checker-line-char-match"
-              : "checker-line-char-normal"
-          }
-          title={
-            isMatch
-              ? `ตรงตำแหน่ง ${offset + index + 1}: ${char}`
-              : undefined
-          }
-        >
-          {char}
-        </span>
-      );
-    });
+    return (
+      <span
+        key={`${offset + index}-${char}`}
+        className={
+          isMatch
+            ? "checker-line-char-match"
+            : "checker-line-char-normal"
+        }
+        title={
+          isMatch
+            ? `ตรงตำแหน่ง ${offset + index + 1}: ${char}`
+            : undefined
+        }
+      >
+        {char}
+      </span>
+    );
+  });
 }
 
 function analyzeLineUrl(
-  rawUrl: string
+  rawUrl: string,
+  references: LineReferencePart[]
 ): {
   score: number;
   label: string;
@@ -224,170 +289,64 @@ function analyzeLineUrl(
   prefix: string;
   suffix: string;
   matchedReference: number;
+  matchedReferenceId: number | null;
   matchedCount: number;
   comparedLength: number;
 } {
-  try {
-    const parsed =
-      new URL(rawUrl.trim());
+  const token = getLineToken(rawUrl);
 
-    const host =
-      parsed.hostname
-        .toLowerCase();
-
-    const directMatch =
-      parsed.pathname.match(
-        /^\/ti\/p\/([^/?#]+)\/?$/i
-      );
-
-    if (
-      parsed.protocol !== "https:" ||
-      !(
-        host === "line.me" ||
-        host === "www.line.me"
-      ) ||
-      !directMatch
-    ) {
-      return {
-        score: 0,
-        label: "ไม่ตรงรูปแบบ",
-        token: "",
-        structure: "OTHER",
-        prefix: "",
-        suffix: "",
-        matchedReference: 0,
-        matchedCount: 0,
-        comparedLength: 0,
-      };
-    }
-
-    const token =
-      directMatch[1] ?? "";
-
-    if (
-      !token ||
-      !/^[A-Za-z0-9_-]+$/.test(
-        token
-      )
-    ) {
-      return {
-        score: 0,
-        label: "Token ไม่ถูกต้อง",
-        token,
-        structure:
-          "line.me/ti/p/{token}",
-        prefix: "",
-        suffix: "",
-        matchedReference: 0,
-        matchedCount: 0,
-        comparedLength: 0,
-      };
-    }
-
-    let bestReference = 0;
-    let bestMatchedCount = -1;
-    let bestComparedLength = 0;
-    let bestScore = 0;
-    let bestPrefix = "";
-    let bestSuffix = "";
-
-    OPEN_LINE_REFERENCE_PARTS.forEach(
-      (reference, index) => {
-        const {
-          matchedCount,
-          comparedLength,
-        } =
-          countExactPositionMatches(
-            token,
-            reference.token
-          );
-
-        const score =
-          comparedLength > 0
-            ? Math.round(
-                (matchedCount /
-                  comparedLength) *
-                  100
-              )
-            : 0;
-
-        if (
-          matchedCount >
-            bestMatchedCount ||
-          (
-            matchedCount ===
-              bestMatchedCount &&
-            score > bestScore
-          )
-        ) {
-          bestReference =
-            index + 1;
-          bestMatchedCount =
-            matchedCount;
-          bestComparedLength =
-            comparedLength;
-          bestScore =
-            score;
-
-          bestPrefix =
-            token.slice(
-              0,
-              reference.prefix.length
-            );
-
-          bestSuffix =
-            token.slice(
-              -reference.suffix.length
-            );
-        }
-      }
-    );
-
-    let label =
-      "ตรงน้อย";
-
-    if (bestScore >= 70) {
-      label =
-        "ตรงมาก";
-    } else if (bestScore >= 40) {
-      label =
-        "ค่อนข้างตรง";
-    } else if (bestScore >= 20) {
-      label =
-        "ตรงบางส่วน";
-    }
-
-    return {
-      score: bestScore,
-      label,
-      token,
-      structure:
-        "line.me/ti/p/{token}",
-      prefix: bestPrefix,
-      suffix: bestSuffix,
-      matchedReference:
-        bestReference,
-      matchedCount:
-        Math.max(
-          0,
-          bestMatchedCount
-        ),
-      comparedLength:
-        bestComparedLength,
-    };
-  } catch {
+  if (!token) {
     return {
       score: 0,
-      label: "URL ไม่ถูกต้อง",
+      label: "ไม่ตรงรูปแบบ",
       token: "",
-      structure: "INVALID",
+      structure: "OTHER",
       prefix: "",
       suffix: "",
       matchedReference: 0,
+      matchedReferenceId: null,
       matchedCount: 0,
       comparedLength: 0,
     };
   }
+
+  const exactIndex = references.findIndex(
+    (reference) => reference.token === token
+  );
+
+  if (exactIndex < 0) {
+    return {
+      score: 0,
+      label: "ยังไม่ตรง Reference",
+      token,
+      structure: "line.me/ti/p/{token}",
+      prefix: token,
+      suffix: "",
+      matchedReference: 0,
+      matchedReferenceId: null,
+      matchedCount: 0,
+      comparedLength: token.length,
+    };
+  }
+
+  const reference = references[exactIndex];
+  const { matchedCount, comparedLength } = countExactPositionMatches(
+    token,
+    reference.token
+  );
+
+  return {
+    score: 100,
+    label: "ตรงกับ Reference",
+    token,
+    structure: "line.me/ti/p/{token}",
+    prefix: reference.prefix,
+    suffix: reference.suffix,
+    matchedReference: exactIndex + 1,
+    matchedReferenceId: reference.id,
+    matchedCount,
+    comparedLength,
+  };
 }
 
 type NetworkInfo = {
@@ -501,6 +460,18 @@ function getToday() {
   return `${year}-${month}-${day}`;
 }
 
+
+function getYesterday() {
+  const date = new Date();
+  date.setDate(date.getDate() - 1);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 function readCurrentUser():
   UserInfo | null {
   if (
@@ -602,6 +573,8 @@ export default function CheckerPage() {
 
     void loadLatestSavedData();
     void loadHistoryData();
+    void loadLineReferences();
+    void loadLineComparison(getToday(), getYesterday());
   }, []);
 
   const [items, setItems] =
@@ -663,6 +636,49 @@ export default function CheckerPage() {
     setLineSimilarityCount,
   ] = useState("3");
 
+
+  const [lineReferences, setLineReferences] =
+    useState<LineReference[]>([]);
+
+  const [showLineReferenceModal, setShowLineReferenceModal] =
+    useState(false);
+
+  const [editingLineReferenceId, setEditingLineReferenceId] =
+    useState<number | null>(null);
+
+  const [lineReferenceUrl, setLineReferenceUrl] =
+    useState("");
+
+  const [lineReferenceNote, setLineReferenceNote] =
+    useState("");
+
+  const [isSavingLineReference, setIsSavingLineReference] =
+    useState(false);
+
+  const [showLineReferenceHistoryModal, setShowLineReferenceHistoryModal] =
+    useState(false);
+
+  const [selectedLineReferenceHistory, setSelectedLineReferenceHistory] =
+    useState<LineReferenceHistoryResponse | null>(null);
+
+  const [isLoadingLineReferenceHistory, setIsLoadingLineReferenceHistory] =
+    useState(false);
+
+  const [compareCurrentDate, setCompareCurrentDate] =
+    useState(getToday());
+
+  const [comparePreviousDate, setComparePreviousDate] =
+    useState(getYesterday());
+
+  const [lineComparison, setLineComparison] =
+    useState<LineCompareResponse | null>(null);
+
+  const [providerComparisonRows, setProviderComparisonRows] =
+    useState<ProviderCompareRow[]>([]);
+
+  const [isLoadingLineComparison, setIsLoadingLineComparison] =
+    useState(false);
+
   const [
     networkInfo,
     setNetworkInfo,
@@ -714,6 +730,358 @@ export default function CheckerPage() {
     process.env
       .NEXT_PUBLIC_API_URL ??
     "http://localhost:4000";
+
+
+  async function loadLineReferences() {
+    try {
+      const response = await fetch(
+        `${apiUrl}/api/checker-results/line-references`,
+        { cache: "no-store" }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.message ?? "โหลด LINE Reference ไม่สำเร็จ");
+      }
+
+      setLineReferences(
+        Array.isArray(data?.references) ? data.references : []
+      );
+    } catch (error) {
+      console.error("Load LINE references error:", error);
+      setLineReferences([]);
+    }
+  }
+
+  function normalizeCompareUrl(value: string | null | undefined) {
+    const clean = String(value ?? "").trim();
+    return clean || null;
+  }
+
+  function compareProviderValue(
+    previousValue: string | null | undefined,
+    currentValue: string | null | undefined
+  ): ProviderCompareValue {
+    const previousUrl = normalizeCompareUrl(previousValue);
+    const currentUrl = normalizeCompareUrl(currentValue);
+
+    if (!previousUrl && !currentUrl) {
+      return {
+        status: "same",
+        previousUrl: null,
+        currentUrl: null,
+      };
+    }
+
+    if (!previousUrl && currentUrl) {
+      return {
+        status: "new",
+        previousUrl: null,
+        currentUrl,
+      };
+    }
+
+    if (previousUrl && !currentUrl) {
+      return {
+        status: "missing",
+        previousUrl,
+        currentUrl: null,
+      };
+    }
+
+    return {
+      status: previousUrl === currentUrl ? "same" : "changed",
+      previousUrl,
+      currentUrl,
+    };
+  }
+
+  function getProviderCompareSummary(
+    providers: Record<ProviderKey, ProviderCompareValue>
+  ) {
+    const labels: Record<ProviderKey, string> = {
+      ais: "AIS",
+      trueDtac: "TRUE / DTAC",
+      nt: "NT",
+      cloudflare: "Cloudflare",
+    };
+
+    const changedProviders = (Object.keys(providers) as ProviderKey[])
+      .filter((key) => providers[key].status === "changed")
+      .map((key) => labels[key]);
+
+    if (changedProviders.length > 0) {
+      return `${changedProviders.join(", ")} เปลี่ยน`;
+    }
+
+    const statuses = (Object.keys(providers) as ProviderKey[]).map(
+      (key) => providers[key].status
+    );
+
+    if (statuses.some((status) => status === "new")) {
+      return "พบใหม่";
+    }
+
+    if (statuses.some((status) => status === "missing")) {
+      return "หายไป";
+    }
+
+    return "เหมือนเดิมทุกเครือข่าย";
+  }
+
+  function buildProviderComparisonRows(
+    previousResults: SavedResult[],
+    currentResults: SavedResult[]
+  ): ProviderCompareRow[] {
+    const previousMap = new Map<string, SavedResult>();
+    const currentMap = new Map<string, SavedResult>();
+
+    previousResults.forEach((row) => {
+      const key = String(row.case_id ?? "").trim();
+      if (key && !previousMap.has(key)) {
+        previousMap.set(key, row);
+      }
+    });
+
+    currentResults.forEach((row) => {
+      const key = String(row.case_id ?? "").trim();
+      if (key && !currentMap.has(key)) {
+        currentMap.set(key, row);
+      }
+    });
+
+    const allCaseIds = Array.from(
+      new Set([...previousMap.keys(), ...currentMap.keys()])
+    ).sort((a, b) => a.localeCompare(b, "th"));
+
+    return allCaseIds.map((caseId) => {
+      const previous = previousMap.get(caseId);
+      const current = currentMap.get(caseId);
+
+      const providers: Record<ProviderKey, ProviderCompareValue> = {
+        ais: compareProviderValue(
+          previous?.ais_result,
+          current?.ais_result
+        ),
+        trueDtac: compareProviderValue(
+          previous?.true_dtac_result,
+          current?.true_dtac_result
+        ),
+        nt: compareProviderValue(
+          previous?.nt_result,
+          current?.nt_result
+        ),
+        cloudflare: compareProviderValue(
+          previous?.cloudflare_result,
+          current?.cloudflare_result
+        ),
+      };
+
+      return {
+        caseId,
+        urlSms:
+          String(current?.url_sms ?? previous?.url_sms ?? "").trim() || "-",
+        providers,
+        summary: getProviderCompareSummary(providers),
+      };
+    });
+  }
+
+  async function loadBatchResultsForCompare(
+    batchId: number | null
+  ): Promise<SavedResult[]> {
+    if (!batchId) {
+      return [];
+    }
+
+    const response = await fetch(
+      `${apiUrl}/api/checker-results/${batchId}`,
+      { cache: "no-store" }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data?.message ?? `โหลด Batch #${batchId} ไม่สำเร็จ`);
+    }
+
+    return Array.isArray(data?.results) ? data.results : [];
+  }
+
+  async function loadLineComparison(
+    currentDate = compareCurrentDate,
+    previousDate = comparePreviousDate
+  ) {
+    try {
+      setIsLoadingLineComparison(true);
+
+      const params = new URLSearchParams({
+        currentDate,
+        previousDate,
+        caseType: "fake_domain",
+      });
+
+      const response = await fetch(
+        `${apiUrl}/api/checker-results/line-compare?${params.toString()}`,
+        { cache: "no-store" }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.message ?? "เปรียบเทียบรายวันไม่สำเร็จ");
+      }
+
+      const compareData = data as LineCompareResponse;
+      setLineComparison(compareData);
+
+      const [previousResults, currentResults] = await Promise.all([
+        loadBatchResultsForCompare(compareData.previousBatchId),
+        loadBatchResultsForCompare(compareData.currentBatchId),
+      ]);
+
+      setProviderComparisonRows(
+        buildProviderComparisonRows(previousResults, currentResults)
+      );
+    } catch (error) {
+      console.error("Load LINE daily comparison error:", error);
+      setLineComparison(null);
+      setProviderComparisonRows([]);
+    } finally {
+      setIsLoadingLineComparison(false);
+    }
+  }
+
+
+  async function openLineReferenceHistory(reference: LineReference) {
+    try {
+      setShowLineReferenceHistoryModal(true);
+      setSelectedLineReferenceHistory(null);
+      setIsLoadingLineReferenceHistory(true);
+
+      const response = await fetch(
+        `${apiUrl}/api/checker-results/line-references/${reference.id}/matches?limit=1000`,
+        { cache: "no-store" }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data?.message ?? "โหลดประวัติการตรวจพบ LINE Reference ไม่สำเร็จ"
+        );
+      }
+
+      setSelectedLineReferenceHistory(data as LineReferenceHistoryResponse);
+    } catch (error) {
+      setShowLineReferenceHistoryModal(false);
+      setSelectedLineReferenceHistory(null);
+
+      alert(
+        error instanceof Error
+          ? error.message
+          : "โหลดประวัติการตรวจพบ LINE Reference ไม่สำเร็จ"
+      );
+    } finally {
+      setIsLoadingLineReferenceHistory(false);
+    }
+  }
+
+  function openCreateLineReference() {
+    setEditingLineReferenceId(null);
+    setLineReferenceUrl("");
+    setLineReferenceNote("");
+    setShowLineReferenceModal(true);
+  }
+
+  function openEditLineReference(reference: LineReference) {
+    setEditingLineReferenceId(reference.id);
+    setLineReferenceUrl(reference.url);
+    setLineReferenceNote(reference.note ?? "");
+    setShowLineReferenceModal(true);
+  }
+
+  async function saveLineReference() {
+    const cleanUrl = lineReferenceUrl.trim();
+
+    if (!cleanUrl) {
+      alert("กรุณากรอก LINE URL");
+      return;
+    }
+
+    if (!getLineToken(cleanUrl)) {
+      alert("URL ต้องเป็นรูปแบบ https://line.me/ti/p/{token}");
+      return;
+    }
+
+    try {
+      setIsSavingLineReference(true);
+
+      const isEditing = editingLineReferenceId !== null;
+      const response = await fetch(
+        isEditing
+          ? `${apiUrl}/api/checker-results/line-references/${editingLineReferenceId}`
+          : `${apiUrl}/api/checker-results/line-references`,
+        {
+          method: isEditing ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            url: cleanUrl,
+            note: lineReferenceNote.trim() || null,
+            createdBy: currentUser?.id ?? null,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.message ?? "บันทึก LINE Reference ไม่สำเร็จ");
+      }
+
+      await loadLineReferences();
+      setShowLineReferenceModal(false);
+      setEditingLineReferenceId(null);
+      setLineReferenceUrl("");
+      setLineReferenceNote("");
+    } catch (error) {
+      alert(
+        error instanceof Error
+          ? error.message
+          : "บันทึก LINE Reference ไม่สำเร็จ"
+      );
+    } finally {
+      setIsSavingLineReference(false);
+    }
+  }
+
+  async function deleteLineReference(reference: LineReference) {
+    if (!window.confirm(`ลบ Reference นี้หรือไม่?\n${reference.url}`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${apiUrl}/api/checker-results/line-references/${reference.id}`,
+        { method: "DELETE" }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.message ?? "ลบ LINE Reference ไม่สำเร็จ");
+      }
+
+      await loadLineReferences();
+    } catch (error) {
+      alert(
+        error instanceof Error
+          ? error.message
+          : "ลบ LINE Reference ไม่สำเร็จ"
+      );
+    }
+  }
 
   async function loadLatestSavedData() {
     try {
@@ -1073,13 +1441,16 @@ export default function CheckerPage() {
       );
     }, [items, search]);
 
+  const lineReferenceParts =
+    useMemo(
+      () => lineReferences.map(buildReferencePart),
+      [lineReferences]
+    );
+
   const lineSimilarityRows =
     useMemo<LineSimilarityRow[]>(() => {
-      const rows: LineSimilarityRow[] =
-        [];
-
-      const seen =
-        new Set<string>();
+      const rows: LineSimilarityRow[] = [];
+      const seen = new Set<string>();
 
       items.forEach((item) => {
         const candidates = [
@@ -1089,63 +1460,45 @@ export default function CheckerPage() {
           item.checked.nt,
           item.checked.cloudflare,
         ]
-          .map((value) =>
-            String(
-              value ?? ""
-            ).trim()
-          )
+          .map((value) => String(value ?? "").trim())
           .filter(Boolean);
 
-        candidates.forEach(
-          (lineUrl) => {
-            const key =
-              `${item.id}::${lineUrl}`;
+        candidates.forEach((lineUrl) => {
+          const key = `${item.id}::${lineUrl}`;
 
-            if (seen.has(key)) {
-              return;
-            }
-
-            seen.add(key);
-
-            const analysis =
-              analyzeLineUrl(
-                lineUrl
-              );
-
-            if (
-              analysis.structure !==
-                "line.me/ti/p/{token}" ||
-              !OPEN_LINE_REFERENCE_PARTS.some(
-                (reference) =>
-                  reference.token === analysis.token
-              )
-            ) {
-              return;
-            }
-
-            rows.push({
-              item,
-              lineUrl,
-              ...analysis,
-              score: 100,
-              label: "ตรงเป๊ะ",
-              matchedCount: analysis.token.length,
-              comparedLength: analysis.token.length,
-            });
+          if (seen.has(key)) {
+            return;
           }
-        );
+
+          seen.add(key);
+
+          const analysis = analyzeLineUrl(
+            lineUrl,
+            lineReferenceParts
+          );
+
+          if (
+            analysis.structure !== "line.me/ti/p/{token}" ||
+            analysis.matchedReferenceId === null
+          ) {
+            return;
+          }
+
+          rows.push({
+            item,
+            lineUrl,
+            ...analysis,
+          });
+        });
       });
 
       return rows.sort(
         (a, b) =>
-          b.matchedCount -
-            a.matchedCount ||
-          b.score -
-            a.score ||
-          a.item.id -
-            b.item.id
+          a.matchedReference - b.matchedReference ||
+          a.item.id - b.item.id
       );
-    }, [items]);
+    }, [items, lineReferenceParts]);
+
 
   const requestedSimilarityCount =
     Math.max(
@@ -1888,33 +2241,38 @@ export default function CheckerPage() {
     );
 
     try {
-      const response =
-        await fetch(
-          `${apiUrl}/api/network-info`
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(
+        () => controller.abort(),
+        8000
+      );
+
+      try {
+        const response = await fetch(
+          `${apiUrl}/api/network-info`,
+          {
+            method: "GET",
+            cache: "no-store",
+            signal: controller.signal,
+          }
         );
 
-      if (!response.ok) {
-        throw new Error(
-          "ตรวจ Network ไม่สำเร็จ"
-        );
+        if (!response.ok) {
+          return null;
+        }
+
+        const data: NetworkInfo =
+          await response.json();
+
+        setNetworkInfo(data);
+        return data;
+      } finally {
+        window.clearTimeout(timeoutId);
       }
-
-      const data: NetworkInfo =
-        await response.json();
-
-      setNetworkInfo(data);
-
-      return data;
-    } catch (error) {
-      console.error(
-        "Network detection error:",
-        error
-      );
-
-      alert(
-        "ไม่สามารถตรวจสอบ Network ปัจจุบันได้"
-      );
-
+    } catch {
+      // Backend ปิด / เชื่อมต่อไม่ได้ / timeout:
+      // ไม่ใช้ console.error เพื่อไม่ให้ Next.js Dev Overlay เด้งเต็มหน้าจอ
+      setNetworkInfo(null);
       return null;
     } finally {
       setIsDetectingNetwork(
@@ -2375,6 +2733,7 @@ export default function CheckerPage() {
                 caseType: "fake_domain",
                 caseStatus: "active",
                 detectedDate: getToday(),
+                checkedBy: currentUser?.id ?? null,
                 saveType: requestedSaveMode,
                 savedProvider:
                   requestedSaveMode === "provider"
@@ -3342,35 +3701,105 @@ export default function CheckerPage() {
         <section className="checker-line-daily-panel">
           <div className="checker-line-daily-head">
             <div>
-              <span>LINE DAILY WATCH</span>
-              <h3>4 URL หลักที่ใช้ตรวจแบบตรงเป๊ะ</h3>
-              <p>ระบบคัดเฉพาะ URL ที่ token ตรงกับ 4 ตัวนี้ 100% เท่านั้น ไม่ใช้ Network และไม่คิดเปอร์เซ็นต์ใกล้เคียง</p>
+              <span>LINE QR REFERENCE</span>
+              <h3>URL ที่ยืนยันแล้วว่าสแกน QR ได้</h3>
+              <p>
+                ระบบจะถือว่า “ตรง” เมื่อ LINE URL ตรงกับ Reference ที่บันทึกไว้แบบ 100% เท่านั้น
+                และสามารถเพิ่ม แก้ไข หรือลบ Reference ได้ภายหลัง
+              </p>
             </div>
-            <div className="checker-line-daily-status">
-              <strong>{lineSimilarityRows.length}</strong>
-              <span>รายการที่พบวันนี้</span>
+
+            <div className="checker-line-daily-head-actions">
+              <div className="checker-line-daily-status">
+                <strong>{lineSimilarityRows.length}</strong>
+                <span>รายการที่ตรงวันนี้</span>
+              </div>
+
+              {canManage && (
+                <button
+                  type="button"
+                  className="checker-line-reference-add"
+                  onClick={openCreateLineReference}
+                >
+                  + เพิ่ม URL อ้างอิง
+                </button>
+              )}
             </div>
           </div>
 
           <div className="checker-line-reference-grid">
-            {OPEN_LINE_REFERENCE_URLS.map((url, index) => {
-              const foundCount = lineSimilarityRows.filter(
-                (row) => row.token === OPEN_LINE_REFERENCE_PARTS[index].token
-              ).length;
+            {lineReferences.length === 0 ? (
+              <div className="checker-line-reference-empty">
+                ยังไม่มี LINE Reference ในฐานข้อมูล
+              </div>
+            ) : (
+              lineReferences.map((reference, index) => {
+                const foundCount = Number(reference.match_count ?? 0);
 
-              return (
-                <article key={url} className={foundCount > 0 ? "is-found" : ""}>
-                  <div>
-                    <span>ตัวหลัก #{index + 1}</span>
-                    <a href={url} target="_blank" rel="noreferrer">{url}</a>
-                  </div>
-                  <strong>{foundCount > 0 ? `พบ ${foundCount}` : "ไม่พบ"}</strong>
-                </article>
-              );
-            })}
+                return (
+                  <article
+                    key={reference.id}
+                    className={foundCount > 0 ? "is-found" : ""}
+                  >
+                    <div className="checker-line-reference-main">
+                      <span>Reference #{index + 1}</span>
+                      <a href={reference.url} target="_blank" rel="noreferrer">
+                        {reference.url}
+                      </a>
+                      {reference.note && <small>{reference.note}</small>}
+
+                      {reference.latest_detected_at && (
+                        <small className="checker-line-reference-latest">
+                          พบล่าสุด {formatThaiDate(reference.latest_detected_at)} เวลา{" "}
+                          {formatThaiTime(reference.latest_detected_at)}
+                        </small>
+                      )}
+                    </div>
+
+                    <div className="checker-line-reference-side">
+                      <strong>
+                        {foundCount > 0
+                          ? `พบ ${foundCount} รายการ`
+                          : "ยังไม่เคยพบ"}
+                      </strong>
+
+                      <div className="checker-line-reference-actions">
+                        <button
+                          type="button"
+                          className="history"
+                          onClick={() => void openLineReferenceHistory(reference)}
+                        >
+                          ดูประวัติ
+                        </button>
+
+                        {canManage && (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => openEditLineReference(reference)}
+                            >
+                              แก้ไข
+                            </button>
+                            <button
+                              type="button"
+                              className="danger"
+                              onClick={() => void deleteLineReference(reference)}
+                            >
+                              ลบ
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })
+            )}
           </div>
 
-          <small>วันที่ตรวจบนหน้านี้: {getToday()} • เมื่อเปิดข้อมูล/นำเข้าไฟล์ ระบบจะคัดผลจากรายการปัจจุบันให้อัตโนมัติ</small>
+          <small>
+            วันที่ตรวจบนหน้านี้: {getToday()} • Reference ถูกเก็บใน PostgreSQL และยังอยู่หลังรีเฟรชหรือเปิดระบบใหม่
+          </small>
         </section>
 
         <section className="checker-table-card">
@@ -3383,7 +3812,9 @@ export default function CheckerPage() {
               <p>
                 {viewMode === "line_similarity"
                   ? `พบตรงเป๊ะ ${lineSimilarityRows.length} รายการ`
-                  : `${filteredItems.length} cases loaded`}
+                  : viewMode === "line_compare"
+                    ? "เปรียบเทียบข้อมูล LINE URL ระหว่างวันที่"
+                    : `${filteredItems.length} cases loaded`}
               </p>
             </div>
 
@@ -3439,11 +3870,28 @@ export default function CheckerPage() {
                     )
                 }
               >
-                LINE ตรง 4 ตัวหลัก
+                LINE ตรง Reference
+              </button>
+
+              <button
+                type="button"
+                className={
+                  viewMode ===
+                  "line_compare"
+                    ? "active"
+                    : ""
+                }
+                onClick={() =>
+                  setViewMode(
+                    "line_compare"
+                  )
+                }
+              >
+                เปรียบเทียบ LINE URL
               </button>
             </div>
 
-            {canManage && (
+            {canManage && viewMode !== "line_compare" && (
               <div className="checker-table-actions">
                 {viewMode === "line_similarity" && (
                   <div className="checker-line-view-controls">
@@ -3524,6 +3972,194 @@ export default function CheckerPage() {
             )}
           </div>
 
+          {viewMode === "line_compare" ? (
+            <div className="checker-line-compare-inline">
+              <div className="checker-line-compare-head">
+                <div>
+                  <h3>เปรียบเทียบ LINE URL</h3>
+                  <p>ดูว่า CASE ไหนเหมือนเดิม เปลี่ยน URL พบใหม่ หรือหายไปจากวันก่อน</p>
+                </div>
+              
+                <div className="checker-line-compare-controls">
+                  <label>
+                    <span>วันที่ล่าสุด</span>
+                    <input
+                      type="date"
+                      value={compareCurrentDate}
+                      onChange={(event) => setCompareCurrentDate(event.target.value)}
+                    />
+                  </label>
+              
+                  <span className="checker-line-compare-vs">เทียบกับ</span>
+              
+                  <label>
+                    <span>วันที่ก่อนหน้า</span>
+                    <input
+                      type="date"
+                      value={comparePreviousDate}
+                      onChange={(event) => setComparePreviousDate(event.target.value)}
+                    />
+                  </label>
+              
+                  <button
+                    type="button"
+                    onClick={() =>
+                      void loadLineComparison(compareCurrentDate, comparePreviousDate)
+                    }
+                    disabled={isLoadingLineComparison}
+                  >
+                    {isLoadingLineComparison ? "กำลังเปรียบเทียบ..." : "เปรียบเทียบ"}
+                  </button>
+                </div>
+              </div>
+              
+              <div className="checker-line-compare-summary">
+                <article>
+                  <span>เหมือนเดิม</span>
+                  <strong>{lineComparison?.summary.same ?? 0}</strong>
+                </article>
+                <article className="changed">
+                  <span>เปลี่ยน URL</span>
+                  <strong>{lineComparison?.summary.changed ?? 0}</strong>
+                </article>
+                <article className="new">
+                  <span>พบใหม่</span>
+                  <strong>{lineComparison?.summary.new ?? 0}</strong>
+                </article>
+                <article className="missing">
+                  <span>หายไป</span>
+                  <strong>{lineComparison?.summary.missing ?? 0}</strong>
+                </article>
+              </div>
+              
+              <div className="checker-line-compare-meta">
+                <span>
+                  วันที่ล่าสุด: Batch #{lineComparison?.currentBatchId ?? "-"}
+                </span>
+                <span>
+                  วันที่ก่อนหน้า: Batch #{lineComparison?.previousBatchId ?? "-"}
+                </span>
+              </div>
+              
+              <div className="checker-line-compare-table-wrap">
+                <table className="checker-line-compare-table provider-compare changed-only">
+                  <thead>
+                    <tr>
+                      <th>CASE ID</th>
+                      <th>URL SMS</th>
+                      <th>เครือข่ายที่เปลี่ยน</th>
+                      <th>URL เดิม</th>
+                      <th>URL ใหม่</th>
+                      <th>สรุป</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(() => {
+                      const providerLabels: Record<ProviderKey, string> = {
+                        ais: "AIS",
+                        trueDtac: "TRUE / DTAC",
+                        nt: "NT",
+                        cloudflare: "Cloudflare",
+                      };
+
+                      const changedRows = providerComparisonRows.flatMap((row) =>
+                        (Object.keys(row.providers) as ProviderKey[])
+                          .filter((key) => row.providers[key].status === "changed")
+                          .map((key) => ({
+                            caseId: row.caseId,
+                            urlSms: row.urlSms,
+                            provider: key,
+                            providerLabel: providerLabels[key],
+                            previousUrl: row.providers[key].previousUrl,
+                            currentUrl: row.providers[key].currentUrl,
+                          }))
+                      );
+
+                      if (changedRows.length === 0) {
+                        return (
+                          <tr>
+                            <td colSpan={6} className="checker-line-compare-empty">
+                              {isLoadingLineComparison
+                                ? "กำลังโหลดข้อมูล..."
+                                : "ไม่พบ LINE URL ที่เปลี่ยนในวันที่เลือก"}
+                            </td>
+                          </tr>
+                        );
+                      }
+
+                      return changedRows.map((row) => (
+                        <tr key={`${row.caseId}-${row.provider}`}>
+                          <td>
+                            <strong>{row.caseId}</strong>
+                          </td>
+
+                          <td>
+                            {row.urlSms !== "-" ? (
+                              <a
+                                className="checker-line-compare-url-sms"
+                                href={row.urlSms}
+                                target="_blank"
+                                rel="noreferrer"
+                                title={row.urlSms}
+                              >
+                                {row.urlSms}
+                              </a>
+                            ) : (
+                              <span className="checker-line-compare-none">-</span>
+                            )}
+                          </td>
+
+                          <td>
+                            <span className="checker-provider-name-badge">
+                              {row.providerLabel}
+                            </span>
+                          </td>
+
+                          <td>
+                            {row.previousUrl ? (
+                              <a
+                                className="checker-provider-change-link old"
+                                href={row.previousUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                title={row.previousUrl}
+                              >
+                                {row.previousUrl}
+                              </a>
+                            ) : (
+                              <span className="checker-line-compare-none">-</span>
+                            )}
+                          </td>
+
+                          <td>
+                            {row.currentUrl ? (
+                              <a
+                                className="checker-provider-change-link new"
+                                href={row.currentUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                title={row.currentUrl}
+                              >
+                                {row.currentUrl}
+                              </a>
+                            ) : (
+                              <span className="checker-line-compare-none">-</span>
+                            )}
+                          </td>
+
+                          <td>
+                            <span className="checker-line-change-badge changed">
+                              ⚠ เปลี่ยน
+                            </span>
+                          </td>
+                        </tr>
+                      ));
+                    })()}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : (
           <div className="checker-table-wrapper">
             <table className="checker-table">
               <thead>
@@ -3571,7 +4207,7 @@ export default function CheckerPage() {
                         colSpan={8}
                         className="checker-empty-table"
                       >
-                        วันนี้ยังไม่พบ LINE URL ที่ตรงเป๊ะกับ 4 ตัวหลัก
+                        วันนี้ยังไม่พบ LINE URL ที่ตรงกับ Reference ที่บันทึกไว้
                       </td>
                     </tr>
                   ) : (
@@ -3581,11 +4217,10 @@ export default function CheckerPage() {
                           row.lineUrl;
 
                         const matchedReference =
-                          row.matchedReference
-                            ? OPEN_LINE_REFERENCE_PARTS[
-                                row.matchedReference -
-                                  1
-                              ]
+                          row.matchedReferenceId
+                            ? lineReferenceParts.find(
+                                (reference) => reference.id === row.matchedReferenceId
+                              ) ?? null
                             : null;
 
                         return (
@@ -3830,7 +4465,255 @@ export default function CheckerPage() {
               </tbody>
             </table>
           </div>
+          )}
         </section>
+
+        {showLineReferenceHistoryModal && (
+          <div
+            className="checker-line-reference-history-backdrop"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) {
+                setShowLineReferenceHistoryModal(false);
+              }
+            }}
+          >
+            <section
+              className="checker-line-reference-history-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="checker-line-reference-history-title"
+            >
+              <div className="checker-line-reference-history-head">
+                <div>
+                  <span>LINE REFERENCE HISTORY</span>
+                  <h2 id="checker-line-reference-history-title">
+                    ประวัติการตรวจพบ
+                  </h2>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowLineReferenceHistoryModal(false)}
+                >
+                  ×
+                </button>
+              </div>
+
+              {isLoadingLineReferenceHistory ? (
+                <div className="checker-line-reference-history-loading">
+                  กำลังโหลดประวัติ...
+                </div>
+              ) : selectedLineReferenceHistory ? (
+                <>
+                  <div className="checker-line-reference-history-summary">
+                    <div>
+                      <span>Reference</span>
+                      <strong>
+                        {selectedLineReferenceHistory.reference.url}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>ตรวจพบทั้งหมด</span>
+                      <strong>
+                        {selectedLineReferenceHistory.matches.length} จุด
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>สร้าง Reference โดย</span>
+                      <strong>
+                        {selectedLineReferenceHistory.reference.created_by_name ??
+                          "ไม่มีข้อมูล"}
+                      </strong>
+                    </div>
+                  </div>
+
+                  {selectedLineReferenceHistory.matches.length === 0 ? (
+                    <div className="checker-line-reference-history-empty">
+                      ยังไม่เคยตรวจพบ URL นี้ในข้อมูลที่บันทึกไว้
+                    </div>
+                  ) : (
+                    <div className="checker-line-reference-history-table-wrap">
+                      <table className="checker-line-reference-history-table">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>วันที่ข้อมูล</th>
+                            <th>เวลาที่ตรวจ/บันทึก</th>
+                            <th>ผู้ตรวจ</th>
+                            <th>CASE ID</th>
+                            <th>พบจาก</th>
+                            <th>URL ที่ตรง</th>
+                            <th>ไฟล์</th>
+                            <th>Batch</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {selectedLineReferenceHistory.matches.map(
+                            (match, index) => (
+                              <tr
+                                key={`${match.result_id}-${match.source_provider}-${index}`}
+                              >
+                                <td>{index + 1}</td>
+                                <td>
+                                  {match.detected_date
+                                    ? formatThaiDate(match.detected_date)
+                                    : formatThaiDate(match.detected_at)}
+                                </td>
+                                <td>
+                                  <strong>{formatThaiTime(match.detected_at)}</strong>
+                                  <small>
+                                    {formatThaiDate(match.detected_at)}
+                                  </small>
+                                </td>
+                                <td>
+                                  <strong>
+                                    {match.checked_by_name ?? "ไม่มีข้อมูลผู้ตรวจ"}
+                                  </strong>
+                                  {match.checked_by_email && (
+                                    <small>{match.checked_by_email}</small>
+                                  )}
+                                </td>
+                                <td>
+                                  <strong>{match.case_id || "-"}</strong>
+                                </td>
+                                <td>
+                                  <span className="checker-line-reference-source-badge">
+                                    {match.source_provider}
+                                  </span>
+                                </td>
+                                <td>
+                                  <a
+                                    href={match.line_url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    title={match.line_url}
+                                  >
+                                    {match.line_url}
+                                  </a>
+                                </td>
+                                <td>{match.original_file_name ?? "-"}</td>
+                                <td>
+                                  <span className="checker-line-reference-batch">
+                                    #{match.batch_id}
+                                  </span>
+                                </td>
+                              </tr>
+                            )
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  <div className="checker-line-reference-history-foot">
+                    <span>
+                      หมายเหตุ: รายการเก่าที่บันทึกก่อนเพิ่มระบบผู้ตรวจ
+                      อาจแสดง “ไม่มีข้อมูลผู้ตรวจ”
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowLineReferenceHistoryModal(false)}
+                    >
+                      ปิด
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="checker-line-reference-history-empty">
+                  ไม่พบข้อมูล
+                </div>
+              )}
+            </section>
+          </div>
+        )}
+
+        {showLineReferenceModal && (
+          <div
+            className="checker-line-reference-modal-backdrop"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget && !isSavingLineReference) {
+                setShowLineReferenceModal(false);
+              }
+            }}
+          >
+            <section
+              className="checker-line-reference-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="checker-line-reference-modal-title"
+            >
+              <div className="checker-line-reference-modal-head">
+                <div>
+                  <span>LINE QR REFERENCE</span>
+                  <h2 id="checker-line-reference-modal-title">
+                    {editingLineReferenceId === null
+                      ? "เพิ่ม URL ที่ยืนยันแล้วว่าสแกนได้"
+                      : "แก้ไข URL อ้างอิง"}
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowLineReferenceModal(false)}
+                  disabled={isSavingLineReference}
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="checker-line-reference-form">
+                <label>
+                  <span>LINE URL</span>
+                  <input
+                    type="url"
+                    value={lineReferenceUrl}
+                    onChange={(event) => setLineReferenceUrl(event.target.value)}
+                    placeholder="https://line.me/ti/p/xxxxxxxxxx"
+                    autoFocus
+                  />
+                </label>
+
+                <label>
+                  <span>หมายเหตุ (ไม่บังคับ)</span>
+                  <input
+                    type="text"
+                    value={lineReferenceNote}
+                    onChange={(event) => setLineReferenceNote(event.target.value)}
+                    placeholder="เช่น ทดสอบสแกน QR แล้วเปิดได้"
+                  />
+                </label>
+
+                <div className="checker-line-reference-form-note">
+                  ระบบใช้เฉพาะ Reference ที่ผู้ใช้ยืนยันเองว่าสแกน QR ได้จริง
+                  และจะนำ URL ในไฟล์มาเทียบแบบตรงกัน 100%
+                </div>
+              </div>
+
+              <div className="checker-line-reference-modal-actions">
+                <button
+                  type="button"
+                  className="secondary"
+                  onClick={() => setShowLineReferenceModal(false)}
+                  disabled={isSavingLineReference}
+                >
+                  ยกเลิก
+                </button>
+                <button
+                  type="button"
+                  className="primary"
+                  onClick={() => void saveLineReference()}
+                  disabled={isSavingLineReference}
+                >
+                  {isSavingLineReference ? "กำลังบันทึก..." : "บันทึก Reference"}
+                </button>
+              </div>
+            </section>
+          </div>
+        )}
 
         {showHistoryModal && (
           <div

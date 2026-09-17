@@ -130,6 +130,10 @@ export async function initializeDatabase():
         NOT NULL
         DEFAULT 'active',
 
+      checked_by INTEGER
+        REFERENCES users(id)
+        ON DELETE SET NULL,
+
       created_at TIMESTAMPTZ
         NOT NULL
         DEFAULT NOW()
@@ -152,7 +156,10 @@ export async function initializeDatabase():
 
       ADD COLUMN IF NOT EXISTS
         case_status VARCHAR(20)
-        DEFAULT 'active';
+        DEFAULT 'active',
+
+      ADD COLUMN IF NOT EXISTS
+        checked_by INTEGER;
   `);
 
   // เติมข้อมูลให้รายการเก่า
@@ -244,6 +251,25 @@ export async function initializeDatabase():
     $$;
   `);
 
+  // ผูกผู้ตรวจ/ผู้บันทึก Batch กับ users สำหรับประวัติ LINE Reference
+  await pool.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'url_fake_batches_checked_by_fkey'
+      ) THEN
+        ALTER TABLE url_fake_batches
+          ADD CONSTRAINT url_fake_batches_checked_by_fkey
+          FOREIGN KEY (checked_by)
+          REFERENCES users(id)
+          ON DELETE SET NULL;
+      END IF;
+    END
+    $$;
+  `);
+
   // =========================================================
   // URL Fake Web - Results
   // =========================================================
@@ -292,6 +318,92 @@ export async function initializeDatabase():
 
       ADD COLUMN IF NOT EXISTS
         cloudflare_status VARCHAR(20);
+  `);
+
+
+  // =========================================================
+  // LINE QR Reference
+  // =========================================================
+  /*
+    เก็บ LINE URL ที่ผู้ใช้ยืนยันแล้วว่าสแกน QR ได้จริง
+    ไม่ Hardcode ไว้ใน Frontend อีกต่อไป
+
+    is_active = FALSE ใช้สำหรับลบแบบ Soft Delete
+    เพื่อไม่ทำลายประวัติเดิมของ Reference
+  */
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS line_qr_references (
+      id SERIAL PRIMARY KEY,
+
+      url TEXT NOT NULL,
+      token VARCHAR(255) NOT NULL UNIQUE,
+
+      verified_scan BOOLEAN
+        NOT NULL
+        DEFAULT TRUE,
+
+      is_active BOOLEAN
+        NOT NULL
+        DEFAULT TRUE,
+
+      note TEXT,
+
+      created_by INTEGER
+        REFERENCES users(id)
+        ON DELETE SET NULL,
+
+      created_at TIMESTAMPTZ
+        NOT NULL
+        DEFAULT NOW(),
+
+      updated_at TIMESTAMPTZ
+        NOT NULL
+        DEFAULT NOW()
+    );
+  `);
+
+  /*
+    Seed 4 URL เดิมที่ผู้ใช้ยืนยันไว้แล้ว
+    ON CONFLICT ทำให้ Restart Backend ได้โดยไม่สร้างข้อมูลซ้ำ
+  */
+  await pool.query(`
+    INSERT INTO line_qr_references (
+      url,
+      token,
+      verified_scan,
+      is_active,
+      note
+    )
+    VALUES
+      (
+        'https://line.me/ti/p/uEh4NMpZuc',
+        'uEh4NMpZuc',
+        TRUE,
+        TRUE,
+        'Reference เดิมที่ยืนยันแล้วว่าสแกน QR ได้'
+      ),
+      (
+        'https://line.me/ti/p/zXfEZpWjGB',
+        'zXfEZpWjGB',
+        TRUE,
+        TRUE,
+        'Reference เดิมที่ยืนยันแล้วว่าสแกน QR ได้'
+      ),
+      (
+        'https://line.me/ti/p/-A_-pnuPY2',
+        '-A_-pnuPY2',
+        TRUE,
+        TRUE,
+        'Reference เดิมที่ยืนยันแล้วว่าสแกน QR ได้'
+      ),
+      (
+        'https://line.me/ti/p/WBH9eGmg_E',
+        'WBH9eGmg_E',
+        TRUE,
+        TRUE,
+        'Reference เดิมที่ยืนยันแล้วว่าสแกน QR ได้'
+      )
+    ON CONFLICT (token) DO NOTHING;
   `);
 
   // =========================================================
@@ -710,10 +822,38 @@ export async function initializeDatabase():
 
   await pool.query(`
     CREATE INDEX IF NOT EXISTS
+      idx_url_fake_batches_checked_by
+    ON url_fake_batches (
+      checked_by,
+      created_at DESC
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS
       idx_url_fake_results_batch_url
     ON url_fake_results (
       batch_id,
       url_sms
+    );
+  `);
+
+  // LINE QR Reference
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS
+      idx_line_qr_references_active
+    ON line_qr_references (
+      is_active,
+      id
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS
+      idx_line_qr_references_updated
+    ON line_qr_references (
+      updated_at DESC,
+      id DESC
     );
   `);
 

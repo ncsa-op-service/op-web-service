@@ -188,7 +188,38 @@ export default function LoginPage() {
           </p>
 
           <a href="/" className="back-home">
-            ← กลับสู่หน้าหลัก
+            <span className="back-home-icon" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3 11.5L12 4L21 11.5"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M5.5 10V20H18.5V10"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M9.5 20V14H14.5V20"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+
+            <span className="back-home-text">กลับสู่หน้าหลัก</span>
+            <span className="back-home-arrow" aria-hidden="true">›</span>
           </a>
         </div>
       </section>
