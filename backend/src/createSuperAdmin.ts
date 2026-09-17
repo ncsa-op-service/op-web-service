@@ -14,18 +14,35 @@ async function createSuperAdmin() {
       );
     }
 
+    // Hash password จาก .env
+    const passwordHash = await bcrypt.hash(password, 12);
+
+    // ตรวจสอบว่ามี Super Admin อยู่แล้วหรือไม่
     const existingUser = await pool.query(
       "SELECT id FROM users WHERE email = $1",
       [email]
     );
 
     if (existingUser.rows.length > 0) {
-      console.log("Super Admin นี้มีอยู่แล้ว");
+      // ถ้ามีอยู่แล้ว ให้อัปเดตข้อมูลและ Password
+      await pool.query(
+        `
+        UPDATE users
+        SET name = $1,
+            password_hash = $2,
+            role = $3,
+            updated_at = NOW()
+        WHERE email = $4
+        `,
+        [name, passwordHash, "super_admin", email]
+      );
+
+      console.log("อัปเดต Super Admin สำเร็จ");
+      console.log(`Email: ${email}`);
       return;
     }
 
-    const passwordHash = await bcrypt.hash(password, 12);
-
+    // ถ้ายังไม่มี ให้สร้างใหม่
     await pool.query(
       `
       INSERT INTO users (name, email, password_hash, role)
@@ -37,7 +54,7 @@ async function createSuperAdmin() {
     console.log("สร้าง Super Admin สำเร็จ");
     console.log(`Email: ${email}`);
   } catch (error) {
-    console.error("สร้าง Super Admin ไม่สำเร็จ:", error);
+    console.error("สร้าง/อัปเดต Super Admin ไม่สำเร็จ:", error);
   } finally {
     await pool.end();
   }
